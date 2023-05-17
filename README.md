@@ -12,3 +12,17 @@
 - React uses a declarative approach to build user interfaces.
 - React uses a virtual DOM to keep track of changes and then updates the actual DOM.
 
+
+
+### Using React:
+
+```html
+<div id="app"></div>
+```
+
+```js
+const root = ReactDOM.createRoot(document.getElementById('app'));
+root.render(React.createElement('h1', null, 'Hello World!')
+//first argument is the type of element you want to create, second argument is the props, and the third argument is the children
+```
+
