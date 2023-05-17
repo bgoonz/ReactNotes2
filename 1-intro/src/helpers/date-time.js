@@ -9,8 +9,8 @@ export const getCurrentDateTime = () => {
   const currentMonth = addLeadingZero(currentDate.getMonth() + 1); // Months are zero-based
   const currentYear = currentDate.getFullYear();
   let currentHours = currentDate.getHours();
-    const currentMinutes = addLeadingZero( currentDate.getMinutes() );
-    const currentSeconds = addLeadingZero( currentDate.getSeconds() );
+  const currentMinutes = addLeadingZero(currentDate.getMinutes());
+  const currentSeconds = addLeadingZero(currentDate.getSeconds());
   const amOrPm = currentHours >= 12 ? "PM" : "AM";
 
   // Convert hours to standard time

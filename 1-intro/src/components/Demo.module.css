@@ -1,13 +1,13 @@
-.special{
-    color:orange;
+.special {
+  color: orange;
 }
 
-.date{
-    color:red;
-    font-size: large;
+.date {
+  color: red;
+  font-size: large;
 }
 
-.bold{
-    font-weight: bold;
-    font-size: medium;
+.bold {
+  font-weight: bold;
+  font-size: medium;
 }
