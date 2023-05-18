@@ -14,8 +14,8 @@ const Demo = (props) => {
         <LikeButton />
       </div>
       <h2 className={classes.special}>Demo Component</h2>
-          <Pets pets={ pets } />
-   
+      <Pets pets={pets} />
+
       <Time />
       <Small />
     </div>

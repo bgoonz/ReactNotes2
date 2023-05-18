@@ -58,8 +58,6 @@ const PetForm = (props) => {
         <button type="submit">Add Pet</button>
       </form>
       <br></br>
-      <br></br>
-      <br></br>
     </div>
   );
 };

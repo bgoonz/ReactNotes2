@@ -1,9 +1,8 @@
 fieldset {
-
-    border: none;
-    padding: 0;
-    margin: 0;
-    font-weight: bold;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-weight: bold;
 }
 .special {
   color: orange;
@@ -60,13 +59,13 @@ fieldset {
   border: 1px;
 }
 
-.inputElement{
-    flex: 1;
-        margin-right: 10px;
-        /* Adjust as needed */
+.inputElement {
+  flex: 1;
+  margin-right: 10px;
+  /* Adjust as needed */
 }
 
-.petForm{
-    display: flex;
-        justify-content: space-between;
+.petForm {
+  display: flex;
+  justify-content: space-between;
 }
