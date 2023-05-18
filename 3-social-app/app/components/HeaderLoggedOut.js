@@ -10,7 +10,12 @@ function HeaderLoggedOut() {
     try {
       const response = await Axios.post("http://localhost:8080/login", { username, password });
   
-        console.log(response.data);
+     if(response.data) {
+       console.log(response.data);
+       console.log("You are now logged in.");
+     } else {
+         console.log("Incorrect username / password.");
+     }
 
     } catch (error) {
       console.log("There was an error.");
