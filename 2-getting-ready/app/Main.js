@@ -1,5 +1,5 @@
-import React from "react"
-import ReactDOM from "react-dom/client"
+import React from "react";
+import ReactDOM from "react-dom/client";
 
 function ExampleComponent() {
   return (
@@ -7,12 +7,12 @@ function ExampleComponent() {
       <h1>This is our app!!!</h1>
       <p>The sky is blue and the grass is green.</p>
     </div>
-  )
+  );
 }
 
-const root = ReactDOM.createRoot(document.querySelector("#app"))
-root.render(<ExampleComponent />)
+const root = ReactDOM.createRoot(document.querySelector("#app"));
+root.render(<ExampleComponent />);
 
 if (module.hot) {
-  module.hot.accept()
+  module.hot.accept();
 }

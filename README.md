@@ -23,18 +23,20 @@ root.render(React.createElement('h1', null, 'Hello World!')
 //first argument is the type of element you want to create, second argument is the props, and the third argument is the children
 ```
 
-
 ---
 
 ##### Installing React Router:
 
-```bash 
+```bash
 npm install react-router-dom
 ```
 
 ##### Importing React Router:
 
 ```js
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route } from "react-router-dom";
 ```
 
+[**Snippet Generator for VSCode**](https://snippet-generator.app/)
+
+**{props.children}** is a special prop that allows you to pass components as data to other components, just like any other prop you use.
