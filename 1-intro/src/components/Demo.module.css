@@ -11,3 +11,23 @@
   font-weight: bold;
   font-size: medium;
 }
+.petContainer {
+  border: 1px solid #ccc;
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+.container {
+  display: flex;
+  max-width: 1000%;
+  margin: 0 auto;
+  /* Center the div horizontally */
+}
+
+.pet {
+  /* Additional styling for the child elements */
+  margin: 5px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  flex: 1;
+}
