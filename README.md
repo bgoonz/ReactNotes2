@@ -22,3 +22,19 @@ const root = ReactDOM.createRoot(document.getElementById('app'));
 root.render(React.createElement('h1', null, 'Hello World!')
 //first argument is the type of element you want to create, second argument is the props, and the third argument is the children
 ```
+
+
+---
+
+##### Installing React Router:
+
+```bash 
+npm install react-router-dom
+```
+
+##### Importing React Router:
+
+```js
+import { BrowserRouter, Route } from 'react-router-dom';
+```
+
