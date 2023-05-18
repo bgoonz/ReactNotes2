@@ -9,11 +9,11 @@ import Footer from "./components/Footer"
 function Main() {
   return (
     <>
-      <Header />
-      <HomeGuest />
-      <Footer />
+          <Header />
+          <HomeGuest />
+            <Footer />
     </>
-  )
+  );
 }
 
 const root = ReactDOM.createRoot(document.querySelector("#app"))
