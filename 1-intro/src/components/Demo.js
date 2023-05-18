@@ -5,6 +5,7 @@ import Small from "./Small";
 import Pets from "./Pets";
 import pets from "../data/pets";
 import LikeButton from "./LikeButton";
+import PetForm from "./PetForm";
 const Demo = (props) => {
   return (
     <div>
@@ -13,7 +14,8 @@ const Demo = (props) => {
         <LikeButton />
       </div>
       <h2 className={classes.special}>Demo Component</h2>
-      <Pets pets={pets} />
+          <Pets pets={ pets } />
+   
       <Time />
       <Small />
     </div>

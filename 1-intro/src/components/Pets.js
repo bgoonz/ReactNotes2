@@ -1,5 +1,8 @@
 import classes from "./Demo.module.css";
-const Pets = (props) => {
+import PetForm from './PetForm'
+import React, { useState } from "react";
+const Pets = (props ) => {
+
   return (
     <div className={classes.petContainer}>
       <h1>Pets</h1>
@@ -12,7 +15,8 @@ const Pets = (props) => {
             <p className={classes.pet}>{pet.owner}</p>
           </div>
         );
-      })}
+      } ) }
+          <PetForm />
     </div>
   );
 };
