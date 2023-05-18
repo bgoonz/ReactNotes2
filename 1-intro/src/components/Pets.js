@@ -5,7 +5,7 @@ const Pets = (props) => {
       <h1>Pets</h1>
       {props.pets.map((pet) => {
         return (
-          <div className={classes.container}>
+          <div className={classes.container} key={pet.id}>
             <h3 className={classes.pet}>Name: {pet.name}</h3>
             <p className={classes.pet}>Species: {pet.species}</p>
             <p className={classes.pet}>Age: {pet.age}</p>

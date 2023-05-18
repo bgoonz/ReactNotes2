@@ -5,7 +5,6 @@ const pets = [
     age: 3,
     owner: "John Doe",
     isDog: true,
-    id: 5966,
   },
   {
     name: "Lucy",
@@ -13,7 +12,6 @@ const pets = [
     age: 5,
     owner: "Jane Smith",
     isDog: false,
-    id: 5365,
   },
   {
     name: "Buddy",
@@ -21,15 +19,14 @@ const pets = [
     age: 2,
     owner: "Mike Johnson",
     isDog: true,
-    id: 3983,
   },
+  // Add more pet objects here...
   {
     name: "Luna",
     species: "Cat",
     age: 1,
     owner: "Sarah Thompson",
     isDog: false,
-    id: 1604,
   },
   {
     name: "Rocky",
@@ -37,7 +34,6 @@ const pets = [
     age: 4,
     owner: "David Wilson",
     isDog: true,
-    id: 1033,
   },
   {
     name: "Oliver",
@@ -45,7 +41,6 @@ const pets = [
     age: 7,
     owner: "Emily Brown",
     isDog: true,
-    id: 7618,
   },
   {
     name: "Milo",
@@ -53,7 +48,6 @@ const pets = [
     age: 2,
     owner: "Daniel Harris",
     isDog: false,
-    id: 5858,
   },
   {
     name: "Charlie",
@@ -61,7 +55,6 @@ const pets = [
     age: 6,
     owner: "Olivia Clark",
     isDog: true,
-    id: 6953,
   },
   {
     name: "Simba",
@@ -69,7 +62,6 @@ const pets = [
     age: 4,
     owner: "Sophia Turner",
     isDog: false,
-    id: 3254,
   },
   {
     name: "Cooper",
@@ -77,8 +69,18 @@ const pets = [
     age: 5,
     owner: "James Martinez",
     isDog: true,
-    id: 6754,
   },
 ];
 
-export default pets;
+// Function to generate a random 4-digit number
+function generateRandomId() {
+  return Math.floor(1000 + Math.random() * 9000);
+}
+
+// Add id property to each object using map()
+const petsWithId = pets.map((pet) => ({
+  ...pet,
+  id: generateRandomId(),
+}));
+
+console.log(petsWithId);
