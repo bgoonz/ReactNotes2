@@ -1,6 +1,10 @@
 import React from "react";
 import Page from "./Page";
 function HomeGuest() {
+    function handleSubmit(event) {
+        event.preventDefault()
+        console.log('hello')
+    }
   return (
     <Page wide={true} title="Home Page">
       <div className="row align-items-center">
@@ -14,7 +18,7 @@ function HomeGuest() {
           </p>
         </div>
         <div className="col-lg-5 pl-lg-5 pb-3 py-lg-5">
-          <form>
+                  <form onSubmit={ handleSubmit}>
             <div className="form-group">
               <label htmlFor="username-register" className="text-muted mb-1">
                 <small>Username</small>
