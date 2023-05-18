@@ -1,6 +1,10 @@
-import React from "react";
+import React,{useEffect} from "react";
 import Container from "./Container";
 const About = () => {
+    useEffect( () => { 
+        document.title = "About Us | ComplexApp";
+        window.scrollTo(0,0)
+    } ,[])
   return (
     <Container>
       <h2>About Us</h2>
