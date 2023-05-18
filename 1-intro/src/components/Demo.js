@@ -10,12 +10,12 @@ const Demo = (props) => {
   return (
     <div>
       <Header />
+
+      <h2 className={classes.special}>Demo Component</h2>
+      <Pets pets={pets} />
       <div className={classes.center}>
         <LikeButton />
       </div>
-      <h2 className={classes.special}>Demo Component</h2>
-      <Pets pets={pets} />
-
       <Time />
       <Small />
     </div>
