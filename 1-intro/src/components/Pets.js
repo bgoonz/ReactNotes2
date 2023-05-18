@@ -8,8 +8,8 @@ const Pets = (props) => {
   //only run once the first time this component is rendered
 
   useEffect(() => {
-      const petData = localStorage.getItem( "pets" );
-      console.log( petData)
+    const petData = localStorage.getItem("pets");
+    console.log(petData);
     if (petData) {
       setPets(JSON.parse(petData));
     }
