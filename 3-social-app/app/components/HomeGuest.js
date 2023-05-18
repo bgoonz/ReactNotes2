@@ -1,9 +1,21 @@
 import React from "react";
 import Page from "./Page";
+import Axios from "axios";
 function HomeGuest() {
     function handleSubmit(event) {
         event.preventDefault()
-        console.log('hello')
+        Axios.post( 'http://localhost:8080/register', {
+            username: event.target.username.value,
+            email: event.target.email.value,
+            password: event.target.password.value
+        } ).then( response => {
+            console.log( response.data )
+        }
+        ).catch( error => {
+            console.log( error.response.data )
+        }
+        )
+        
     }
   return (
     <Page wide={true} title="Home Page">
