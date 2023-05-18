@@ -1,8 +1,7 @@
 import React from "react";
 
-import Page from './Page'
+import Page from "./Page";
 const About = () => {
-
   return (
     <Page title="About Us">
       <h2>About Us</h2>
