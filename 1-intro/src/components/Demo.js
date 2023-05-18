@@ -5,7 +5,7 @@ import Small from "./Small";
 import Pets from "./Pets";
 import pets from "../data/pets";
 import LikeButton from "./LikeButton";
-import PetForm from "./PetForm";
+
 const Demo = (props) => {
   return (
     <div>
