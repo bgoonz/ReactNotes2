@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 import HeaderLoggedOut from "./HeaderLoggedOut";
 import HeaderLoggedIn from "./HeaderLoggedIn";
 function Header() {
-  const [loggedIn, setLoggedIn] = useState(Boolean(localStorage.getItem("complexappToken")));
+  const [loggedIn, setLoggedIn] = useState(
+    Boolean(localStorage.getItem("complexappToken"))
+  );
 
   return (
     <header className="header-bar bg-primary mb-3">
@@ -13,7 +15,11 @@ function Header() {
             ComplexApp
           </Link>
         </h4>
-              { loggedIn ? <HeaderLoggedIn setLoggedIn={ setLoggedIn } /> : <HeaderLoggedOut setLoggedIn={setLoggedIn} />}
+        {loggedIn ? (
+          <HeaderLoggedIn setLoggedIn={setLoggedIn} />
+        ) : (
+          <HeaderLoggedOut setLoggedIn={setLoggedIn} />
+        )}
       </div>
     </header>
   );
