@@ -83,8 +83,8 @@ function HomeGuest() {
             </button>
           </form>
         </div>
-          </div>
-        </Page>
+      </div>
+    </Page>
   );
 }
 
