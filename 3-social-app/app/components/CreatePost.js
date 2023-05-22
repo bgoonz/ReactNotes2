@@ -1,15 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import Page from "./Page";
 
 function CreatePost() {
+  const [title, setTitle] = useState();
+  const [body, setBody] = useState();
+
   async function handleSubmit(event) {
     event.preventDefault();
     try {
       const response = await Axios.post("/create-post", {
-        title: event.target.title.value,
-        body: event.target.body.value,
-        token: localStorage.getItem("complexappToken"),
+        title: title,
+        body: body,
+        token: localStorage.getItem("complexappToken")
       });
       console.log(response.data);
     } catch (error) {
@@ -32,6 +35,7 @@ function CreatePost() {
             type="text"
             placeholder=""
             autoComplete="off"
+            onChange={(event) => setTitle(event.target.value)}
           />
         </div>
 
@@ -39,12 +43,7 @@ function CreatePost() {
           <label htmlFor="post-body" className="text-muted mb-1 d-block">
             <small>Body Content</small>
           </label>
-          <textarea
-            name="body"
-            id="post-body"
-            className="body-content tall-textarea form-control"
-            type="text"
-          ></textarea>
+          <textarea onChange={(event) => setBody(event.target.value)} name="body" id="post-body" className="body-content tall-textarea form-control" type="text"></textarea>
         </div>
 
         <button className="btn btn-primary">Save New Post</button>
