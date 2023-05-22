@@ -40,3 +40,5 @@ import { BrowserRouter, Route } from "react-router-dom";
 [**Snippet Generator for VSCode**](https://snippet-generator.app/)
 
 **{props.children}** is a special prop that allows you to pass components as data to other components, just like any other prop you use.
+
+**To focus an input element on load** we give it a prop of autoFocus or `autoFocus={true}`

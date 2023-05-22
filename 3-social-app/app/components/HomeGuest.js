@@ -8,7 +8,7 @@ function HomeGuest() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    Axios.post("http://localhost:8080/register", {
+    Axios.post("/register", {
       username,
       email,
       password,
