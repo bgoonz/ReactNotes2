@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Axios from "axios";
 import Page from "./Page";
 import { useNavigate } from "react-router-dom";
+import ExampleContext from "../ExampleContext";
+
 function CreatePost(props) {
   const [title, setTitle] = useState();
   const [body, setBody] = useState();
+  const addFlashMessage = useContext(ExampleContext);
   const navigate = useNavigate();
   async function handleSubmit(event) {
     event.preventDefault();
@@ -12,11 +15,11 @@ function CreatePost(props) {
       const response = await Axios.post("/create-post", {
         title: title,
         body: body,
-        token: localStorage.getItem("complexappToken")
+        token: localStorage.getItem("complexappToken"),
       });
       //redirect to new post url
-        console.log( response.data );
-        props.addFlashMessage( "Congrats, you successfully created a post." );
+      console.log(response.data);
+      addFlashMessage("Congrats, you successfully created a post.");
       navigate(`/post/${response.data}`);
     } catch (error) {
       console.log(error);
@@ -46,7 +49,13 @@ function CreatePost(props) {
           <label htmlFor="post-body" className="text-muted mb-1 d-block">
             <small>Body Content</small>
           </label>
-          <textarea onChange={(event) => setBody(event.target.value)} name="body" id="post-body" className="body-content tall-textarea form-control" type="text"></textarea>
+          <textarea
+            onChange={(event) => setBody(event.target.value)}
+            name="body"
+            id="post-body"
+            className="body-content tall-textarea form-control"
+            type="text"
+          ></textarea>
         </div>
 
         <button className="btn btn-primary">Save New Post</button>
