@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import Page from "./Page";
-
+import { useNavigate } from "react-router-dom";
 function CreatePost() {
   const [title, setTitle] = useState();
   const [body, setBody] = useState();
-
+  const navigate = useNavigate();
   async function handleSubmit(event) {
     event.preventDefault();
     try {
@@ -14,7 +14,9 @@ function CreatePost() {
         body: body,
         token: localStorage.getItem("complexappToken")
       });
+      //redirect to new post url
       console.log(response.data);
+      navigate(`/post/${response.data}`);
     } catch (error) {
       console.log(error);
     }
