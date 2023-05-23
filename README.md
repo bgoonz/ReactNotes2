@@ -175,42 +175,40 @@ console.log(newState); // { count: 1, todos: ['Buy milk'] }
 - In the reducer even though you are only modifying one property in the state object you have to return a new object representing the entire new state.
 
 ```js
- function ourReducer(state, action) {
-    switch (action.type) {
-      case "login":
-        return { loggedIn: true, flashMessages: state.flashMessages };
-      case "logout":
-        return { loggedIn: false, flashMessages: state.flashMessages };
-      case "flashMessage":
-        return {
-          loggedIn: state.loggedIn,
-          flashMessages: state.flashMessages.concat(action.value),
-        };
-    }
+function ourReducer(state, action) {
+  switch (action.type) {
+    case "login":
+      return { loggedIn: true, flashMessages: state.flashMessages };
+    case "logout":
+      return { loggedIn: false, flashMessages: state.flashMessages };
+    case "flashMessage":
+      return {
+        loggedIn: state.loggedIn,
+        flashMessages: state.flashMessages.concat(action.value),
+      };
   }
-  //i.e.         return { loggedIn: true, flashMessages: state.flashMessages };
-  ```
+}
+//i.e.         return { loggedIn: true, flashMessages: state.flashMessages };
+```
 
 **Refactored using Immer**
 `import { useImmerReducer } from "use-immer";`
 
 ```js
-  function ourReducer(draft, action) {
-    switch (action.type) {
-      case "login":
-            draft.loggedIn = true;
-            break;
-      case "logout":
-            draft.loggedIn = false;
-            break;
-      case "flashMessage":
-            draft.flashMessages.push( action.value );
-            break;
-    }
+function ourReducer(draft, action) {
+  switch (action.type) {
+    case "login":
+      draft.loggedIn = true;
+      break;
+    case "logout":
+      draft.loggedIn = false;
+      break;
+    case "flashMessage":
+      draft.flashMessages.push(action.value);
+      break;
   }
-  const [state, dispatch] = useImmerReducer(ourReducer, initialState);
-
+}
+const [state, dispatch] = useImmerReducer(ourReducer, initialState);
 ```
+
 - In the example above you replace useReducer with `useImmerReducer` and you have to end each case in the switch statment with either an empty return statment or a `break;` ... (matter of personal preference)... in the example above I used break for variety's sake.
-
-
