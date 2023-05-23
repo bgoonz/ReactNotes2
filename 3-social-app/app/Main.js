@@ -1,6 +1,7 @@
 import Axios from "axios";
-import React, { useReducer } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
+import { useImmerReducer } from "use-immer";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import DispatchContext from "./DispatchContext";
 import StateContext from "./StateContext";
@@ -21,21 +22,21 @@ function Main() {
     loggedIn: Boolean(localStorage.getItem("complexappToken")),
     flashMessages: [],
   };
-  function ourReducer(state, action) {
+  function ourReducer(draft, action) {
     switch (action.type) {
       case "login":
-        return { loggedIn: true, flashMessages: state.flashMessages };
+            draft.loggedIn = true;
+            break;
       case "logout":
-        return { loggedIn: false, flashMessages: state.flashMessages };
+            draft.loggedIn = false;
+            break;
       case "flashMessage":
-        return {
-          loggedIn: state.loggedIn,
-          flashMessages: state.flashMessages.concat(action.value),
-        };
+            draft.flashMessages.push( action.value );
+            break;
     }
   }
-  const [state, dispatch] = useReducer(ourReducer, initialState);
-  //   dispatch({ type: "login" });
+  const [state, dispatch] = useImmerReducer(ourReducer, initialState);
+
 
   return (
     <StateContext.Provider value={state}>
