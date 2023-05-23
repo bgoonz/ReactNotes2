@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import ReactDOM from "react-dom/client";
+import React, { useState, useReducer } from "react";
+import ReactDOM from "react-dom";
 import ExampleContext from "./ExampleContext";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Axios from "axios";
@@ -16,6 +16,25 @@ import ViewSinglePost from "./components/ViewSinglePost";
 import FlashMessages from "./components/FlashMessages";
 
 function Main() {
+  const initialState = {
+    loggedIn: Boolean(localStorage.getItem("complexappToken")),
+    flashMessages: [],
+  };
+  function ourReducer(state, action) {
+    switch (action.type) {
+      case "login":
+        return { loggedIn: true, flashMessages: state.flashMessages };
+      case "logout":
+        return { loggedIn: false, flashMessages: state.flashMessages };
+      case "flashMessage":
+        return {
+          loggedIn: state.loggedIn,
+          flashMessages: state.flashMessages.concat(action.value),
+        };
+    }
+  }
+  const [state, dispatch] = useReducer(ourReducer, initialState);
+  //   dispatch({ type: "login" });
   const [loggedIn, setLoggedIn] = useState(
     Boolean(localStorage.getItem("complexappToken"))
   );

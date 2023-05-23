@@ -129,3 +129,16 @@ function HeaderLoggedOut(props) {
 ---
 
 ### useReducer
+
+- useReducer is a state managment hook that is similar to useState, it accepts a reducer of type `(state,action) => newState` and returns the current state paired with a dispatch method.
+- useReducer is a good alternative to useState when you have complex state logic that involves multiple sub-alues or when the next state depends on the previous one.
+
+```js
+const [state, dispatch] = useReducer(reducer, initialArg, init);
+```
+
+- a dispatch function is a function that takes an object with a type property and possibly a value (sometimes called a payload)
+
+In the case of `dispatch({ type: "login" });` login is our action
+
+- We can pair this up with context by setting the Context.Provider value prop to the dispatch function.
