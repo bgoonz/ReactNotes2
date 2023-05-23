@@ -7,7 +7,7 @@ import ExampleContext from "../ExampleContext";
 function CreatePost(props) {
   const [title, setTitle] = useState();
   const [body, setBody] = useState();
-  const addFlashMessage = useContext(ExampleContext);
+  const { addFlashMessage } = useContext(ExampleContext);
   const navigate = useNavigate();
   async function handleSubmit(event) {
     event.preventDefault();
