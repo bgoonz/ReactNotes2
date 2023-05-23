@@ -20,20 +20,20 @@ function CreatePost(props) {
       const response = await Axios.post("/create-post", {
         title: title,
         body: body,
-        token: appState.user.token
+        token: appState.user.token,
       });
       //redirect to new post url
       console.log(response.data);
       appDispatch({
         type: "flashMessage",
-        value: "Congrats, you created a new post."
+        value: "Congrats, you created a new post.",
       });
       navigate(`/post/${response.data}`);
     } catch (error) {
       console.log(error);
     }
   }
-//----------------------------------------------------
+  //----------------------------------------------------
   return (
     <Page title="Create New Post">
       <form onSubmit={handleSubmit}>
@@ -57,7 +57,13 @@ function CreatePost(props) {
           <label htmlFor="post-body" className="text-muted mb-1 d-block">
             <small>Body Content</small>
           </label>
-          <textarea onChange={(event) => setBody(event.target.value)} name="body" id="post-body" className="body-content tall-textarea form-control" type="text"></textarea>
+          <textarea
+            onChange={(event) => setBody(event.target.value)}
+            name="body"
+            id="post-body"
+            className="body-content tall-textarea form-control"
+            type="text"
+          ></textarea>
         </div>
 
         <button className="btn btn-primary">Save New Post</button>

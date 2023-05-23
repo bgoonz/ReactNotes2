@@ -27,8 +27,8 @@ function Main() {
     user: {
       token: localStorage.getItem("complexappToken"),
       username: localStorage.getItem("complexappUsername"),
-      avatar: localStorage.getItem("complexappAvatar")
-    }
+      avatar: localStorage.getItem("complexappAvatar"),
+    },
   };
 
   function ourReducer(draft, action) {
@@ -70,7 +70,10 @@ function Main() {
           <Header />
           <Routes>
             <Route path="/profile/:username/*" element={<Profile />} />
-            <Route path="/" element={state.loggedIn ? <Home /> : <HomeGuest />} />
+            <Route
+              path="/"
+              element={state.loggedIn ? <Home /> : <HomeGuest />}
+            />
             <Route path="/post/:id" element={<ViewSinglePost />} />
             <Route path="/create-post" element={<CreatePost />} />
             <Route path="/about-us" element={<About />} />
