@@ -1,12 +1,12 @@
-import Axios from "axios";
 import React, { useEffect } from "react";
-import ReactDOM from "react-dom/client";
+import ReactDOM from "react-dom";
 import { useImmerReducer } from "use-immer";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import DispatchContext from "./DispatchContext";
 import StateContext from "./StateContext";
-Axios.defaults.baseURL = "http://localhost:8080";
-// My Components
+import Axios from "axios";
+
+// My components
 import About from "./components/About";
 import CreatePost from "./components/CreatePost";
 import FlashMessages from "./components/FlashMessages";
@@ -16,6 +16,9 @@ import Home from "./components/Home";
 import HomeGuest from "./components/HomeGuest";
 import Terms from "./components/Terms";
 import ViewSinglePost from "./components/ViewSinglePost";
+import Profile from "./components/Profile";
+
+Axios.defaults.baseURL = "http://localhost:8080";
 
 function Main() {
   const initialState = {
@@ -24,9 +27,10 @@ function Main() {
     user: {
       token: localStorage.getItem("complexappToken"),
       username: localStorage.getItem("complexappUsername"),
-      avatar: localStorage.getItem("complexappAvatar"),
-    },
+      avatar: localStorage.getItem("complexappAvatar")
+    }
   };
+
   function ourReducer(draft, action) {
     switch (action.type) {
       case "login":
@@ -39,8 +43,11 @@ function Main() {
       case "flashMessage":
         draft.flashMessages.push(action.value);
         break;
+      default:
+        break;
     }
   }
+
   const [state, dispatch] = useImmerReducer(ourReducer, initialState);
 
   useEffect(() => {
@@ -62,10 +69,8 @@ function Main() {
           <FlashMessages messages={state.flashMessages} />
           <Header />
           <Routes>
-            <Route
-              path="/"
-              element={state.loggedIn ? <Home /> : <HomeGuest />}
-            />
+            <Route path="/profile/:username/*" element={<Profile />} />
+            <Route path="/" element={state.loggedIn ? <Home /> : <HomeGuest />} />
             <Route path="/post/:id" element={<ViewSinglePost />} />
             <Route path="/create-post" element={<CreatePost />} />
             <Route path="/about-us" element={<About />} />
@@ -78,8 +83,7 @@ function Main() {
   );
 }
 
-const root = ReactDOM.createRoot(document.querySelector("#app"));
-root.render(<Main />);
+ReactDOM.render(<Main />, document.querySelector("#app"));
 
 if (module.hot) {
   module.hot.accept();
