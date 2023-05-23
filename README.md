@@ -142,3 +142,30 @@ const [state, dispatch] = useReducer(reducer, initialArg, init);
 In the case of `dispatch({ type: "login" });` login is our action
 
 - We can pair this up with context by setting the Context.Provider value prop to the dispatch function.
+
+---
+
+### Immer:
+
+- The `immer` npm package is a powerful tool for working with immutable state in JavaScript applications. It provides a simple and convenient way to create a new immutable state by applying changes to a draft version of the state. The main idea behind immer is to make working with immutable data structures easier and more intuitive.
+- With `immer`, you can update your state in a mutable way while ensuring that the original state remains unmodified. It utilizes a technique called "structural sharing" to optimize performance by minimizing unnecessary object copies.
+- The package provides a single function called `produce`, which is the core of immer's functionality. The `produce` function takes an initial state and a "producer" function, which describes the desired changes to the state. Inside the producer function, you can modify the state using normal JavaScript mutative operations, such as assignment and method calls. immer takes care of tracking the changes and generating a new immutable state based on those modifications.
+
+> ex.)
+
+```js
+import produce from "immer";
+
+const originalState = {
+  count: 0,
+  todos: [],
+};
+
+const newState = produce(originalState, (draftState) => {
+  draftState.count += 1;
+  draftState.todos.push("Buy milk");
+});
+
+console.log(originalState); // { count: 0, todos: [] }
+console.log(newState); // { count: 1, todos: ['Buy milk'] }
+```
