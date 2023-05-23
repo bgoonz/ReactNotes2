@@ -1,15 +1,15 @@
 import React, { useContext } from "react";
 import DispatchContext from "../DispatchContext";
+import StateContext from "../StateContext";
 import { Link } from "react-router-dom";
 function HeaderLoggedIn(props) {
   //app means appwide or global
-  const appDispatch = useContext(DispatchContext);
+    const appDispatch = useContext( DispatchContext );
+    const appState = useContext( StateContext );
 
   const handleLogout = () => {
     appDispatch({ type: "logout" });
-    localStorage.removeItem("complexappToken");
-    localStorage.removeItem("complexappUsername");
-    localStorage.removeItem("complexappAvatar");
+
   };
   return (
     <div className="flex-row my-3 my-md-0">
@@ -23,7 +23,7 @@ function HeaderLoggedIn(props) {
       <a href="#" className="mr-2">
         <img
           className="small-header-avatar"
-          src={localStorage.getItem("complexappAvatar")}
+          src={appState.user.avatar}
         />
       </a>
       <Link className="btn btn-sm btn-success mr-2" to="/create-post">
