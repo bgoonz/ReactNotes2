@@ -42,3 +42,90 @@ import { BrowserRouter, Route } from "react-router-dom";
 **{props.children}** is a special prop that allows you to pass components as data to other components, just like any other prop you use.
 
 **To focus an input element on load** we give it a prop of autoFocus or `autoFocus={true}`
+
+---
+
+### Context
+
+- First create the context
+
+```js
+import { createContext } from "react";
+
+const ExampleContext = createContext();
+
+export default ExampleContext;
+```
+
+- Then wrap the components you want to provide the context to with a context provider component
+
+```js
+function Main() {
+  const [loggedIn, setLoggedIn] = useState(
+    Boolean(localStorage.getItem("complexappToken"))
+  );
+  const [flashMessages, setFlashMessages] = useState([]);
+
+  function addFlashMessage(msg) {
+    setFlashMessages((prev) => prev.concat(msg));
+  }
+
+  return (
+    <ExampleContext.Provider value={{ addFlashMessage, setLoggedIn }}>
+      <BrowserRouter>
+        <FlashMessages messages={flashMessages} />
+        <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
+        <Routes>
+          <Route path="/" element={loggedIn ? <Home /> : <HomeGuest />} />
+          <Route path="/post/:id" element={<ViewSinglePost />} />
+          <Route path="/create-post" element={<CreatePost />} />
+          <Route path="/about-us" element={<About />} />
+          <Route path="/terms" element={<Terms />} />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
+    </ExampleContext.Provider>
+  );
+}
+```
+
+- Then hook into the context in your component
+
+```js
+import ExampleContext from "../ExampleContext";
+function HeaderLoggedOut(props) {
+  const { setLoggedIn } = useContext(ExampleContext);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    try {
+      const response = await Axios.post("/login", {
+        username,
+        password,
+      });
+
+      if (response.data) {
+        localStorage.setItem("complexappToken", response.data.token);
+        localStorage.setItem("complexappUsername", response.data.username);
+        localStorage.setItem("complexappAvatar", response.data.avatar);
+   /*===========>*/     setLoggedIn(true);
+        console.log("You are now logged in.");
+      } else {
+        console.log("Incorrect username / password.");
+      }
+    } catch (error) {
+      console.log("There was an error.");
+    }
+    setUsername("");
+    setPassword("");
+  }
+
+
+```
+
+---
+
+### useReducer
