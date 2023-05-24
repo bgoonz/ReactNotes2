@@ -4,7 +4,7 @@ import Axios from "axios";
 import LoadingDotsIcon from "./LoadingDotsIcon";
 import ReactMarkdown from "react-markdown";
 import { useParams, Link } from "react-router-dom";
-
+import CodeBlock from "../helpers/CodeBlock";
 function ViewSinglePost() {
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
@@ -62,7 +62,7 @@ function ViewSinglePost() {
       </p>
 
       <div className="body-content">
-        <ReactMarkdown children={post.body} />
+        <ReactMarkdown children={post.body} renderers={{ code: CodeBlock }} />
       </div>
     </Page>
   );
