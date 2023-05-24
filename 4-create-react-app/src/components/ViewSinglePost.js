@@ -1,8 +1,31 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Page from "./Page";
+import Axios from "axios";
+import LoadingDotsIcon from "./LoadingDotsIcon";
+import StateContext from "../StateContext";
+import { useParams, Link } from "react-router-dom";
 function ViewSinglePost() {
+    const appState = useContext( StateContext );
+    const { id } = useParams();
+    const [ isLoading, setIsLoading ] = useState( true );
+    const [ post, setPost ] = useState( [] );
+    useEffect( () => {
+        async function fetchPost() {
+            try {
+                const response = await Axios.get( `/post/${id}` );
+                console.log( response.data );
+                setIsLoading( false );
+                setPost( response.data );
+            } catch ( error ) {
+                console.log( "There was a problem.", error );
+            }
+        }
+        fetchPost();
+    }, [id] );
+    
+                if ( isLoading ) return <LoadingDotsIcon />;
   return (
-    <Page title="Hardcoded Title">
+      <Page title={post.title }>
       <div className="d-flex justify-content-between">
         <h2>Example Post Title</h2>
         <span className="pt-2">
@@ -19,10 +42,11 @@ function ViewSinglePost() {
         <a href="#">
           <img
             className="avatar-tiny"
-            src="https://gravatar.com/avatar/b9408a09298632b5151200f3449434ef?s=128"
+    src={appState.user.avatar}
+            alt="avatar"
           />
         </a>
-        Posted by <a href="#">brad</a> on 2/10/2020
+        Posted by <Link to="#">{appState.user.username}</Link> on {post.createdDate}
       </p>
 
       <div className="body-content">
