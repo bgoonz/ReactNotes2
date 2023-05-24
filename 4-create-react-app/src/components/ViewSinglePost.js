@@ -47,10 +47,10 @@ function ViewSinglePost() {
       </div>
 
       <p className="text-muted small mb-4">
-        <a href="#">
+        <Link to={`/profile/${post.author.username}`}>
           <img className="avatar-tiny" src={post.author.avatar} alt="avatar" />
-        </a>
-        Posted by <Link to="#">{post.author.username}</Link> on {formatedDate()}
+        </Link>
+        Posted by <Link to={`/profile/${post.author.username}`}>{post.author.username}</Link> on {formatedDate()}
       </p>
 
       <div className="body-content">{post.body}</div>
