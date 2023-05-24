@@ -13,12 +13,14 @@ function ViewSinglePost() {
     const ourRequest = Axios.CancelToken.source();
     async function fetchPost() {
       try {
-        const response = await Axios.get(`/post/${id}`, { cancelToken: ourRequest.token });
+        const response = await Axios.get(`/post/${id}`, {
+          cancelToken: ourRequest.token,
+        });
 
         setIsLoading(false);
         setPost(response.data);
       } catch (error) {
-        console.log("There was a problem.", error);
+        console.log("There was a problem, or the request was canceled", error);
       }
     }
     fetchPost();
@@ -46,7 +48,11 @@ function ViewSinglePost() {
           <Link to="#" className="text-primary mr-2" title="Edit">
             <i className="fas fa-edit"></i>
           </Link>
-          <Link to={`#`} className="delete-post-button text-danger" title="Delete">
+          <Link
+            to={`#`}
+            className="delete-post-button text-danger"
+            title="Delete"
+          >
             <i className="fas fa-trash"></i>
           </Link>
         </span>
@@ -56,7 +62,11 @@ function ViewSinglePost() {
         <Link to={`/profile/${post.author.username}`}>
           <img className="avatar-tiny" src={post.author.avatar} alt="avatar" />
         </Link>
-        Posted by <Link to={`/profile/${post.author.username}`}>{post.author.username}</Link> on {formatedDate()}
+        Posted by{" "}
+        <Link to={`/profile/${post.author.username}`}>
+          {post.author.username}
+        </Link>{" "}
+        on {formatedDate()}
       </p>
 
       <div className="body-content">{post.body}</div>

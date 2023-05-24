@@ -10,9 +10,12 @@ function ProfilePosts() {
   const [isLoading, setIsLoading] = useState(true);
   const [posts, setPosts] = useState([]);
   useEffect(() => {
+    const ourRequest = Axios.CancelToken.source();
     async function fetchPosts() {
       try {
-        const response = await Axios.get(`/profile/${username}/posts`);
+        const response = await Axios.get(`/profile/${username}/posts`, {
+          cancelToken: ourRequest.token,
+        });
 
         setPosts(response.data);
         setIsLoading(false);
@@ -21,6 +24,10 @@ function ProfilePosts() {
       }
     }
     fetchPosts();
+    return () => {
+      // cleanup
+      ourRequest.cancel();
+    };
   }, [username]);
   if (isLoading) return <LoadingDotsIcon />;
 

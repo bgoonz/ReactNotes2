@@ -14,11 +14,16 @@ function Profile() {
     counts: { postCount: "", followerCount: "", followingCount: "" },
   });
   useEffect(() => {
+    const ourRequest = Axios.CancelToken.source();
     async function fetchData() {
       try {
-        const response = await Axios.post(`/profile/${username}`, {
-          token: appState.user.token,
-        });
+        const response = await Axios.post(
+          `/profile/${username}`,
+          {
+            token: appState.user.token,
+          },
+          { cancelToken: ourRequest.token }
+        );
         console.log(response.data);
         setProfileData(response.data);
       } catch (e) {
@@ -26,6 +31,10 @@ function Profile() {
       }
     }
     fetchData();
+    return () => {
+      // cleanup
+      ourRequest.cancel();
+    };
   }, [username, appState.user.token]);
   return (
     <Page title="Profile Screen">
