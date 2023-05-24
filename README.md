@@ -213,10 +213,8 @@ const [state, dispatch] = useImmerReducer(ourReducer, initialState);
 
 - In the example above you replace useReducer with `useImmerReducer` and you have to end each case in the switch statment with either an empty return statment or a `break;` ... (matter of personal preference)... in the example above I used break for variety's sake.
 
-
 ---
 
 `<img className="avatar-tiny" src={ post.author.avatar } /> <strong>{ post.title }</strong>{ " " }`
 
 the `{ " " }` is to add a whitespace space which react removes by default.
-

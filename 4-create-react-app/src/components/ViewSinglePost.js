@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import Page from "./Page";
 import Axios from "axios";
 import LoadingDotsIcon from "./LoadingDotsIcon";
@@ -37,12 +37,16 @@ function ViewSinglePost() {
       <div className="d-flex justify-content-between">
         <h2>{post.title}</h2>
         <span className="pt-2">
-          <a href="#" className="text-primary mr-2" title="Edit">
+          <Link to="#" className="text-primary mr-2" title="Edit">
             <i className="fas fa-edit"></i>
-          </a>
-          <a className="delete-post-button text-danger" title="Delete">
+          </Link>
+          <Link
+            to={`#`}
+            className="delete-post-button text-danger"
+            title="Delete"
+          >
             <i className="fas fa-trash"></i>
-          </a>
+          </Link>
         </span>
       </div>
 
@@ -50,7 +54,11 @@ function ViewSinglePost() {
         <Link to={`/profile/${post.author.username}`}>
           <img className="avatar-tiny" src={post.author.avatar} alt="avatar" />
         </Link>
-        Posted by <Link to={`/profile/${post.author.username}`}>{post.author.username}</Link> on {formatedDate()}
+        Posted by{" "}
+        <Link to={`/profile/${post.author.username}`}>
+          {post.author.username}
+        </Link>{" "}
+        on {formatedDate()}
       </p>
 
       <div className="body-content">{post.body}</div>
