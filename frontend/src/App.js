@@ -1,11 +1,12 @@
+import Axios from "axios";
 import React, { useEffect } from "react";
-import { useImmerReducer } from "use-immer";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useImmerReducer } from "use-immer";
 import DispatchContext from "./DispatchContext";
 import StateContext from "./StateContext";
-import Axios from "axios";
 
 // My components
+import "./App.css";
 import About from "./components/About";
 import CreatePost from "./components/CreatePost";
 import FlashMessages from "./components/FlashMessages";
@@ -13,10 +14,9 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Home from "./components/Home";
 import HomeGuest from "./components/HomeGuest";
+import Profile from "./components/Profile";
 import Terms from "./components/Terms";
 import ViewSinglePost from "./components/ViewSinglePost";
-import Profile from "./components/Profile";
-import "./App.css";
 Axios.defaults.baseURL = "http://localhost:8080";
 
 function Main() {

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
-import LoadingDotsIcon from "./LoadingDotsIcon";
-import { useParams, Link } from "react-router-dom";
 import Axios from "axios";
+import { Link, useParams } from "react-router-dom";
+import LoadingDotsIcon from "./LoadingDotsIcon";
 
 function ProfilePosts() {
   const { username } = useParams();
