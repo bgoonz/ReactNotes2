@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Axios from "axios";
 import Page from "./Page";
+import ProfilePosts from "./ProfilePosts";
 import StateContext from "../StateContext";
 function Profile() {
   const { username } = useParams();
@@ -47,24 +48,7 @@ function Profile() {
           Following: {profileData.counts.followingCount}
         </a>
       </div>
-
-      <div className="list-group">
-        <a href="#" className="list-group-item list-group-item-action">
-          <img className="avatar-tiny" src={appState.user.avatar} />{" "}
-          <strong>Example Post #1</strong>
-          <span className="text-muted small">on 2/10/2020 </span>
-        </a>
-        <a href="#" className="list-group-item list-group-item-action">
-          <img className="avatar-tiny" src={appState.user.avatar} />{" "}
-          <strong>Example Post #2</strong>
-          <span className="text-muted small">on 2/10/2020 </span>
-        </a>
-        <a href="#" className="list-group-item list-group-item-action">
-          <img className="avatar-tiny" src={appState.user.avatar} />{" "}
-          <strong>Example Post #3</strong>
-          <span className="text-muted small">on 2/10/2020 </span>
-        </a>
-      </div>
+      <ProfilePosts />
     </Page>
   );
 }
