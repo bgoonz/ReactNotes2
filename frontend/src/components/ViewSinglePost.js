@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Page from "./Page";
 import Axios from "axios";
 import LoadingDotsIcon from "./LoadingDotsIcon";
-
+import ReactMarkdown from "react-markdown";
 import { useParams, Link } from "react-router-dom";
 
 function ViewSinglePost() {
@@ -14,7 +14,7 @@ function ViewSinglePost() {
     async function fetchPost() {
       try {
         const response = await Axios.get(`/post/${id}`, {
-          cancelToken: ourRequest.token,
+          cancelToken: ourRequest.token
         });
 
         setIsLoading(false);
@@ -48,11 +48,7 @@ function ViewSinglePost() {
           <Link to="#" className="text-primary mr-2" title="Edit">
             <i className="fas fa-edit"></i>
           </Link>
-          <Link
-            to={`#`}
-            className="delete-post-button text-danger"
-            title="Delete"
-          >
+          <Link to={`#`} className="delete-post-button text-danger" title="Delete">
             <i className="fas fa-trash"></i>
           </Link>
         </span>
@@ -62,14 +58,12 @@ function ViewSinglePost() {
         <Link to={`/profile/${post.author.username}`}>
           <img className="avatar-tiny" src={post.author.avatar} alt="avatar" />
         </Link>
-        Posted by{" "}
-        <Link to={`/profile/${post.author.username}`}>
-          {post.author.username}
-        </Link>{" "}
-        on {formatedDate()}
+        Posted by <Link to={`/profile/${post.author.username}`}>{post.author.username}</Link> on {formatedDate()}
       </p>
 
-      <div className="body-content">{post.body}</div>
+      <div className="body-content">
+        <ReactMarkdown children={post.body} />
+      </div>
     </Page>
   );
 }
