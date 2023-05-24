@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, {  useState, useEffect } from "react";
 
 import LoadingDotsIcon from "./LoadingDotsIcon";
 import { useParams, Link } from "react-router-dom";
@@ -16,12 +16,12 @@ function ProfilePosts() {
         
         setPosts(response.data);
         setIsLoading(false);
-      } catch (e) {
+      } catch (error) {
         console.log("There was a problem.", error);
       }
     }
     fetchPosts();
-  }, []);
+  }, [username]);
   if (isLoading) return <LoadingDotsIcon />;
 
   return (
@@ -30,8 +30,8 @@ function ProfilePosts() {
               const date = new Date( post.createdDate );
               const dateFormatted = `${ date.getMonth() + 1 }/${ date.getDate() }/${ date.getFullYear() }`;
               return (
-                  <Link to="#" key={ post._id } className="list-group-item list-group-item-action">
-                      <img className="avatar-tiny" src={ post.author.avatar } /> <strong>{ post.title }</strong>{ " " }
+                  <Link to={`/post/${post._id}` } key={ post._id } className="list-group-item list-group-item-action">
+                      <img className="avatar-tiny" src={ post.author.avatar } alt=""/> <strong>{ post.title }</strong>{ " " }
                       <span className="text-muted small">
                           { !post.isDeleted && <> on { dateFormatted } </> }
                           { post.isDeleted && <> <strong className="text-danger">Deleted</strong> </> }
