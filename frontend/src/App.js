@@ -17,6 +17,7 @@ import HomeGuest from "./components/HomeGuest";
 import Profile from "./components/Profile";
 import Terms from "./components/Terms";
 import ViewSinglePost from "./components/ViewSinglePost";
+import EditPost from "./components/EditPost";
 Axios.defaults.baseURL = "http://localhost:8080";
 
 function Main() {
@@ -79,6 +80,7 @@ function Main() {
               element={state.loggedIn ? <Home /> : <HomeGuest />}
             />
             <Route path="/post/:id" element={<ViewSinglePost />} />
+            <Route path="/post/:id/edit" element={<EditPost />} />
             <Route path="/create-post" element={<CreatePost />} />
             <Route path="/about-us" element={<About />} />
             <Route path="/terms" element={<Terms />} />

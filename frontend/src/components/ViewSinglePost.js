@@ -15,7 +15,7 @@ function ViewSinglePost() {
     async function fetchPost() {
       try {
         const response = await Axios.get(`/post/${id}`, {
-          cancelToken: ourRequest.token
+          cancelToken: ourRequest.token,
         });
 
         setIsLoading(false);
@@ -46,12 +46,22 @@ function ViewSinglePost() {
       <div className="d-flex justify-content-between">
         <h2>{post.title}</h2>
         <span className="pt-2">
-          <a href="#" data-tip="Edit" data-for="edit" className="text-primary mr-2">
+          <Link
+            to={`/post/${post._id}/edit`}
+            data-tip="Edit"
+            data-for="edit"
+            className="text-primary mr-2"
+          >
             {" "}
             <i className="fas fa-edit"></i>
-          </a>
+          </Link>
           <Tooltip id="edit" className="custom-tooltip" />{" "}
-          <a href={`#`} data-tip="Delete" data-for="delete" className="delete-post-button text-danger">
+          <a
+            href={`#`}
+            data-tip="Delete"
+            data-for="delete"
+            className="delete-post-button text-danger"
+          >
             <i className="fas fa-trash"></i>
           </a>{" "}
           <Tooltip id="delete" className="custom-tooltip" />
@@ -62,7 +72,11 @@ function ViewSinglePost() {
         <Link to={`/profile/${post.author.username}`}>
           <img className="avatar-tiny" src={post.author.avatar} alt="avatar" />
         </Link>
-        Posted by <Link to={`/profile/${post.author.username}`}>{post.author.username}</Link> on {formatedDate()}
+        Posted by{" "}
+        <Link to={`/profile/${post.author.username}`}>
+          {post.author.username}
+        </Link>{" "}
+        on {formatedDate()}
       </p>
 
       <div className="body-content">
