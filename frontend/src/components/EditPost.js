@@ -10,7 +10,7 @@ import StateContext from "../StateContext";
 import DispatchContext from "../DispatchContext";
 import NotFound from "./NotFound";
 
-function ViewSinglePost() {
+function EditPost() {
     const navigate = useNavigate();
   const appState = React.useContext(StateContext);
   const appDispatch = React.useContext(DispatchContext);
@@ -222,4 +222,4 @@ function ViewSinglePost() {
   );
 }
 
-export default ViewSinglePost;
+export default EditPost;
