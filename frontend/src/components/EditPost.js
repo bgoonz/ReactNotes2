@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable default-case */
 import React, { useEffect, useState } from "react";
 import { useImmerReducer } from "use-immer";
@@ -6,24 +7,26 @@ import { useParams, Link } from "react-router-dom";
 import Axios from "axios";
 import LoadingDotsIcon from "./LoadingDotsIcon";
 import StateContext from "../StateContext";
+import DispatchContext from "../DispatchContext";
 
 function ViewSinglePost() {
-  const appState = React.useContext(StateContext);
+    const appState = React.useContext( StateContext );
+    const appDispatch = React.useContext( DispatchContext );
   const originalState = {
     title: {
       value: "",
       hasErrors: false,
-      message: "",
+      message: ""
     },
     body: {
       value: "",
       hasErrors: false,
-      message: "",
+      message: ""
     },
     isFetching: true,
     isSaving: false,
     id: useParams().id,
-    sendCount: 0,
+    sendCount: 0
   };
 
   function ourReducer(draft, action) {
@@ -42,6 +45,12 @@ function ViewSinglePost() {
       case "submitRequest":
         draft.sendCount++;
         return;
+      case "saveRequestStarted":
+        draft.isSaving = true;
+        return;
+      case "saveRequestFinished":
+        draft.isSaving = false;
+        return;
     }
   }
 
@@ -57,7 +66,7 @@ function ViewSinglePost() {
     async function fetchPost() {
       try {
         const response = await Axios.get(`/post/${state.id}`, {
-          cancelToken: ourRequest.token,
+          cancelToken: ourRequest.token
         });
         dispatch({ type: "fetchComplete", value: response.data });
       } catch (e) {
@@ -72,6 +81,7 @@ function ViewSinglePost() {
 
   useEffect(() => {
     if (state.sendCount) {
+      dispatch({ type: "saveRequestStarted" });
       const ourRequest = Axios.CancelToken.source();
       async function fetchPost() {
         try {
@@ -80,11 +90,12 @@ function ViewSinglePost() {
             {
               title: state.title.value,
               body: state.body.value,
-              token: appState.user.token,
+              token: appState.user.token
             },
             { cancelToken: ourRequest.token }
           );
-          dispatch({ type: "fetchComplete", value: response.data });
+            dispatch( { type: "saveRequestFinished" } );
+            appDispatch( { type: "flashMessage", value: "Post was updated." } );
         } catch (e) {
           console.log("There was a problem or the request was cancelled.");
         }
@@ -119,9 +130,7 @@ function ViewSinglePost() {
             type="text"
             placeholder=""
             autoComplete="off"
-            onChange={(event) =>
-              dispatch({ type: "titleChange", value: event.target.value })
-            }
+            onChange={(event) => dispatch({ type: "titleChange", value: event.target.value })}
           />
         </div>
 
@@ -135,13 +144,13 @@ function ViewSinglePost() {
             className="body-content tall-textarea form-control"
             type="text"
             value={state.body.value}
-            onChange={(event) =>
-              dispatch({ type: "bodyChange", value: event.target.value })
-            }
+            onChange={(event) => dispatch({ type: "bodyChange", value: event.target.value })}
           />
         </div>
 
-        <button className="btn btn-primary">Save Updates</button>
+        <button className="btn btn-primary" disabled={state.isSaving}>
+          {state.isSaving ? "Saving Post" : "Save Post"}
+        </button>
       </form>
     </Page>
   );
