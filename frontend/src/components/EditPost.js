@@ -1,3 +1,4 @@
+/* eslint-disable default-case */
 import React, { useEffect, useState } from "react";
 import { useImmerReducer } from "use-immer";
 import Page from "./Page";
@@ -30,11 +31,27 @@ function ViewSinglePost() {
         draft.body.value = action.value.body;
         draft.isFetching = false;
         return;
+      case "titleChange":
+        draft.title.value = action.value;
+            return;
+        case "bodyChange":
+            draft.body.value = action.value;
+            return;
+        case "submitRequest":
+            draft.sendCount++;
+            return;
+        
     }
   }
 
   const [state, dispatch] = useImmerReducer(ourReducer, originalState);
 
+    function submitHandler( event ) {
+        event.preventDefault();
+        dispatch( { type: "submitRequest" } );
+        
+    }
+    
   useEffect(() => {
     const ourRequest = Axios.CancelToken.source();
     async function fetchPost() {
@@ -49,7 +66,7 @@ function ViewSinglePost() {
     return () => {
       ourRequest.cancel();
     };
-  }, []);
+  }, [dispatch, state.id]);
 
   if (state.isFetching)
     return (
@@ -60,19 +77,36 @@ function ViewSinglePost() {
 
   return (
     <Page title="Edit Post">
-      <form>
+          <form onSubmit={submitHandler }>
         <div className="form-group">
           <label htmlFor="post-title" className="text-muted mb-1">
             <small>Title</small>
           </label>
-          <input value={state.title.value} autoFocus name="title" id="post-title" className="form-control form-control-lg form-control-title" type="text" placeholder="" autoComplete="off" />
+          <input
+            value={state.title.value}
+            autoFocus
+            name="title"
+            id="post-title"
+            className="form-control form-control-lg form-control-title"
+            type="text"
+            placeholder=""
+            autoComplete="off"
+            onChange={(event) => dispatch({ type: "titleChange", value: event.target.value })}
+          />
         </div>
 
         <div className="form-group">
           <label htmlFor="post-body" className="text-muted mb-1 d-block">
             <small>Body Content</small>
           </label>
-          <textarea name="body" id="post-body" className="body-content tall-textarea form-control" type="text" value={state.body.value} />
+          <textarea
+            name="body"
+            id="post-body"
+            className="body-content tall-textarea form-control"
+            type="text"
+            value={state.body.value}
+            onChange={(event) => dispatch({ type: "bodyChange", value: event.target.value })}
+          />
         </div>
 
         <button className="btn btn-primary">Save Updates</button>
