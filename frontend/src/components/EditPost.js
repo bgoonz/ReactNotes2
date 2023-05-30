@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable default-case */
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useImmerReducer } from "use-immer";
 import Page from "./Page";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
 import LoadingDotsIcon from "./LoadingDotsIcon";
 import StateContext from "../StateContext";
@@ -11,6 +11,7 @@ import DispatchContext from "../DispatchContext";
 import NotFound from "./NotFound";
 
 function ViewSinglePost() {
+    const navigate = useNavigate();
   const appState = React.useContext(StateContext);
   const appDispatch = React.useContext(DispatchContext);
   const originalState = {
@@ -97,7 +98,10 @@ function ViewSinglePost() {
             appDispatch({
               type: "flashMessage",
               value: "You do not have permission to edit that post.",
-            });
+            } );
+            // redirect to homepage if user is not the author of the post
+            navigate("/");
+              
           }
         } else {
           dispatch({ type: "notFound" });
