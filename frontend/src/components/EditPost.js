@@ -10,8 +10,8 @@ import StateContext from "../StateContext";
 import DispatchContext from "../DispatchContext";
 
 function ViewSinglePost() {
-    const appState = React.useContext( StateContext );
-    const appDispatch = React.useContext( DispatchContext );
+  const appState = React.useContext(StateContext);
+  const appDispatch = React.useContext(DispatchContext);
   const originalState = {
     title: {
       value: "",
@@ -50,6 +50,12 @@ function ViewSinglePost() {
         return;
       case "saveRequestFinished":
         draft.isSaving = false;
+        return;
+      case "titleRules":
+        if (!action.value.trim()) {
+          draft.title.hasErrors = true;
+          draft.title.message = "You must provide a title.";
+        }
         return;
     }
   }
@@ -94,8 +100,8 @@ function ViewSinglePost() {
             },
             { cancelToken: ourRequest.token }
           );
-            dispatch( { type: "saveRequestFinished" } );
-            appDispatch( { type: "flashMessage", value: "Post was updated." } );
+          dispatch({ type: "saveRequestFinished" });
+          appDispatch({ type: "flashMessage", value: "Post was updated." });
         } catch (e) {
           console.log("There was a problem or the request was cancelled.");
         }
@@ -131,7 +137,9 @@ function ViewSinglePost() {
             placeholder=""
             autoComplete="off"
             onChange={(event) => dispatch({ type: "titleChange", value: event.target.value })}
+            onBlur={(event) => dispatch({ type: "titleRules", value: event.target.value })}
           />
+          {state.title.hasErrors && <div className="alert alert-danger small liveValidateMessage">Example Error Message Should Go Here</div>}
         </div>
 
         <div className="form-group">
