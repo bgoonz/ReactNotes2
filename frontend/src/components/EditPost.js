@@ -16,17 +16,17 @@ function ViewSinglePost() {
     title: {
       value: "",
       hasErrors: false,
-      message: ""
+      message: "",
     },
     body: {
       value: "",
       hasErrors: false,
-      message: ""
+      message: "",
     },
     isFetching: true,
     isSaving: false,
     id: useParams().id,
-    sendCount: 0
+    sendCount: 0,
   };
 
   function ourReducer(draft, action) {
@@ -37,9 +37,11 @@ function ViewSinglePost() {
         draft.isFetching = false;
         return;
       case "titleChange":
+        draft.title.hasErrors = false;
         draft.title.value = action.value;
         return;
       case "bodyChange":
+        draft.body.hasErrors = false;
         draft.body.value = action.value;
         return;
       case "submitRequest":
@@ -82,7 +84,7 @@ function ViewSinglePost() {
     async function fetchPost() {
       try {
         const response = await Axios.get(`/post/${state.id}`, {
-          cancelToken: ourRequest.token
+          cancelToken: ourRequest.token,
         });
         dispatch({ type: "fetchComplete", value: response.data });
       } catch (e) {
@@ -106,7 +108,7 @@ function ViewSinglePost() {
             {
               title: state.title.value,
               body: state.body.value,
-              token: appState.user.token
+              token: appState.user.token,
             },
             { cancelToken: ourRequest.token }
           );
@@ -146,10 +148,18 @@ function ViewSinglePost() {
             type="text"
             placeholder=""
             autoComplete="off"
-            onChange={(event) => dispatch({ type: "titleChange", value: event.target.value })}
-            onBlur={(event) => dispatch({ type: "titleRules", value: event.target.value })}
+            onChange={(event) =>
+              dispatch({ type: "titleChange", value: event.target.value })
+            }
+            onBlur={(event) =>
+              dispatch({ type: "titleRules", value: event.target.value })
+            }
           />
-          {state.title.hasErrors && <div className="alert alert-danger small liveValidateMessage">{state.title.message}</div>}
+          {state.title.hasErrors && (
+            <div className="alert alert-danger small liveValidateMessage">
+              {state.title.message}
+            </div>
+          )}
         </div>
 
         <div className="form-group">
@@ -162,10 +172,18 @@ function ViewSinglePost() {
             className="body-content tall-textarea form-control"
             type="text"
             value={state.body.value}
-            onChange={(event) => dispatch({ type: "bodyChange", value: event.target.value })}
-            onBlur={(event) => dispatch({ type: "bodyRules", value: event.target.value })}
+            onChange={(event) =>
+              dispatch({ type: "bodyChange", value: event.target.value })
+            }
+            onBlur={(event) =>
+              dispatch({ type: "bodyRules", value: event.target.value })
+            }
           />
-          {state.body.hasErrors && <div className="alert alert-danger small liveValidateMessage">{state.body.message}</div>}
+          {state.body.hasErrors && (
+            <div className="alert alert-danger small liveValidateMessage">
+              {state.body.message}
+            </div>
+          )}
         </div>
 
         <button className="btn btn-primary" disabled={state.isSaving}>
