@@ -59,14 +59,21 @@ function ViewSinglePost() {
           draft.title.message = "You must provide a title.";
         }
         return;
+      case "bodyRules":
+        if (!action.value.trim()) {
+          draft.body.hasErrors = true;
+          draft.body.message = "You must provide body content.";
+        }
+        return;
     }
   }
 
   const [state, dispatch] = useImmerReducer(ourReducer, originalState);
 
   function submitHandler(event) {
-      event.preventDefault();
-        dispatch({ type: "titleRules", value: state.title.value });
+    event.preventDefault();
+    dispatch({ type: "titleRules", value: state.title.value });
+    dispatch({ type: "bodyRules", value: state.body.value });
     dispatch({ type: "submitRequest" });
   }
 
@@ -156,7 +163,9 @@ function ViewSinglePost() {
             type="text"
             value={state.body.value}
             onChange={(event) => dispatch({ type: "bodyChange", value: event.target.value })}
+            onBlur={(event) => dispatch({ type: "bodyRules", value: event.target.value })}
           />
+          {state.body.hasErrors && <div className="alert alert-danger small liveValidateMessage">{state.body.message}</div>}
         </div>
 
         <button className="btn btn-primary" disabled={state.isSaving}>
