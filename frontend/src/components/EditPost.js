@@ -5,23 +5,25 @@ import Page from "./Page";
 import { useParams, Link } from "react-router-dom";
 import Axios from "axios";
 import LoadingDotsIcon from "./LoadingDotsIcon";
+import StateContext from "../StateContext";
 
 function ViewSinglePost() {
+  const appState = React.useContext(StateContext);
   const originalState = {
     title: {
       value: "",
       hasErrors: false,
-      message: ""
+      message: "",
     },
     body: {
       value: "",
       hasErrors: false,
-      message: ""
+      message: "",
     },
     isFetching: true,
     isSaving: false,
     id: useParams().id,
-    sendCount: 0
+    sendCount: 0,
   };
 
   function ourReducer(draft, action) {
@@ -33,30 +35,30 @@ function ViewSinglePost() {
         return;
       case "titleChange":
         draft.title.value = action.value;
-            return;
-        case "bodyChange":
-            draft.body.value = action.value;
-            return;
-        case "submitRequest":
-            draft.sendCount++;
-            return;
-        
+        return;
+      case "bodyChange":
+        draft.body.value = action.value;
+        return;
+      case "submitRequest":
+        draft.sendCount++;
+        return;
     }
   }
 
   const [state, dispatch] = useImmerReducer(ourReducer, originalState);
 
-    function submitHandler( event ) {
-        event.preventDefault();
-        dispatch( { type: "submitRequest" } );
-        
-    }
-    
+  function submitHandler(event) {
+    event.preventDefault();
+    dispatch({ type: "submitRequest" });
+  }
+
   useEffect(() => {
     const ourRequest = Axios.CancelToken.source();
     async function fetchPost() {
       try {
-        const response = await Axios.get(`/post/${state.id}`, { cancelToken: ourRequest.token });
+        const response = await Axios.get(`/post/${state.id}`, {
+          cancelToken: ourRequest.token,
+        });
         dispatch({ type: "fetchComplete", value: response.data });
       } catch (e) {
         console.log("There was a problem or the request was cancelled.");
@@ -66,7 +68,33 @@ function ViewSinglePost() {
     return () => {
       ourRequest.cancel();
     };
-  }, [dispatch, state.id]);
+  }, []);
+
+  useEffect(() => {
+    if (state.sendCount) {
+      const ourRequest = Axios.CancelToken.source();
+      async function fetchPost() {
+        try {
+          const response = await Axios.post(
+            `/post/${state.id}/edit`,
+            {
+              title: state.title.value,
+              body: state.body.value,
+              token: appState.user.token,
+            },
+            { cancelToken: ourRequest.token }
+          );
+          dispatch({ type: "fetchComplete", value: response.data });
+        } catch (e) {
+          console.log("There was a problem or the request was cancelled.");
+        }
+      }
+      fetchPost();
+      return () => {
+        ourRequest.cancel();
+      };
+    }
+  }, [state.sendCount]);
 
   if (state.isFetching)
     return (
@@ -77,7 +105,7 @@ function ViewSinglePost() {
 
   return (
     <Page title="Edit Post">
-          <form onSubmit={submitHandler }>
+      <form onSubmit={submitHandler}>
         <div className="form-group">
           <label htmlFor="post-title" className="text-muted mb-1">
             <small>Title</small>
@@ -91,7 +119,9 @@ function ViewSinglePost() {
             type="text"
             placeholder=""
             autoComplete="off"
-            onChange={(event) => dispatch({ type: "titleChange", value: event.target.value })}
+            onChange={(event) =>
+              dispatch({ type: "titleChange", value: event.target.value })
+            }
           />
         </div>
 
@@ -105,7 +135,9 @@ function ViewSinglePost() {
             className="body-content tall-textarea form-control"
             type="text"
             value={state.body.value}
-            onChange={(event) => dispatch({ type: "bodyChange", value: event.target.value })}
+            onChange={(event) =>
+              dispatch({ type: "bodyChange", value: event.target.value })
+            }
           />
         </div>
 
