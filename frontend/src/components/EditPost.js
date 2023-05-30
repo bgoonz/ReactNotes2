@@ -43,7 +43,9 @@ function ViewSinglePost() {
         draft.body.value = action.value;
         return;
       case "submitRequest":
-        draft.sendCount++;
+        if (!draft.title.hasErrors && !draft.body.hasErrors) {
+          draft.sendCount++;
+        }
         return;
       case "saveRequestStarted":
         draft.isSaving = true;
@@ -63,7 +65,8 @@ function ViewSinglePost() {
   const [state, dispatch] = useImmerReducer(ourReducer, originalState);
 
   function submitHandler(event) {
-    event.preventDefault();
+      event.preventDefault();
+        dispatch({ type: "titleRules", value: state.title.value });
     dispatch({ type: "submitRequest" });
   }
 
@@ -139,7 +142,7 @@ function ViewSinglePost() {
             onChange={(event) => dispatch({ type: "titleChange", value: event.target.value })}
             onBlur={(event) => dispatch({ type: "titleRules", value: event.target.value })}
           />
-          {state.title.hasErrors && <div className="alert alert-danger small liveValidateMessage">Example Error Message Should Go Here</div>}
+          {state.title.hasErrors && <div className="alert alert-danger small liveValidateMessage">{state.title.message}</div>}
         </div>
 
         <div className="form-group">
