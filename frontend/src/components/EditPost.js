@@ -8,6 +8,7 @@ import Axios from "axios";
 import LoadingDotsIcon from "./LoadingDotsIcon";
 import StateContext from "../StateContext";
 import DispatchContext from "../DispatchContext";
+import NotFound from "./NotFound";
 
 function ViewSinglePost() {
   const appState = React.useContext(StateContext);
@@ -16,17 +17,18 @@ function ViewSinglePost() {
     title: {
       value: "",
       hasErrors: false,
-      message: "",
+      message: ""
     },
     body: {
       value: "",
       hasErrors: false,
-      message: "",
+      message: ""
     },
     isFetching: true,
     isSaving: false,
     id: useParams().id,
     sendCount: 0,
+    notFound: false
   };
 
   function ourReducer(draft, action) {
@@ -67,6 +69,9 @@ function ViewSinglePost() {
           draft.body.message = "You must provide body content.";
         }
         return;
+      case "notFound":
+        draft.notFound = true;
+        return;
     }
   }
 
@@ -84,9 +89,16 @@ function ViewSinglePost() {
     async function fetchPost() {
       try {
         const response = await Axios.get(`/post/${state.id}`, {
-          cancelToken: ourRequest.token,
+          cancelToken: ourRequest.token
         });
-        dispatch({ type: "fetchComplete", value: response.data });
+        if (response.data) {
+          dispatch({ type: "fetchComplete", value: response.data });
+          if (appState.user.username !== response.data.author.username) {
+            appDispatch({ type: "flashMessage", value: "You do not have permission to edit that post." });
+          }
+        } else {
+          dispatch({ type: "notFound" });
+        }
       } catch (e) {
         console.log("There was a problem or the request was cancelled.");
       }
@@ -108,10 +120,11 @@ function ViewSinglePost() {
             {
               title: state.title.value,
               body: state.body.value,
-              token: appState.user.token,
+              token: appState.user.token
             },
             { cancelToken: ourRequest.token }
           );
+          console.log(response.data);
           dispatch({ type: "saveRequestFinished" });
           appDispatch({ type: "flashMessage", value: "Post was updated." });
         } catch (e) {
@@ -124,6 +137,10 @@ function ViewSinglePost() {
       };
     }
   }, [state.sendCount]);
+  //---------------------Post Not Found--------------------------------
+  if (state.notFound) {
+    return <NotFound />;
+  }
 
   if (state.isFetching)
     return (
@@ -131,10 +148,14 @@ function ViewSinglePost() {
         <LoadingDotsIcon />
       </Page>
     );
-
+  //---------------------JSX---------------------
   return (
     <Page title="Edit Post">
-      <form onSubmit={submitHandler}>
+      <Link className="small font-weight-bold" to={`/post/${state.id}`}>
+        &laquo; Back to post permalink
+      </Link>
+
+      <form onSubmit={submitHandler} className="mt-3">
         <div className="form-group">
           <label htmlFor="post-title" className="text-muted mb-1">
             <small>Title</small>
@@ -148,18 +169,10 @@ function ViewSinglePost() {
             type="text"
             placeholder=""
             autoComplete="off"
-            onChange={(event) =>
-              dispatch({ type: "titleChange", value: event.target.value })
-            }
-            onBlur={(event) =>
-              dispatch({ type: "titleRules", value: event.target.value })
-            }
+            onChange={(event) => dispatch({ type: "titleChange", value: event.target.value })}
+            onBlur={(event) => dispatch({ type: "titleRules", value: event.target.value })}
           />
-          {state.title.hasErrors && (
-            <div className="alert alert-danger small liveValidateMessage">
-              {state.title.message}
-            </div>
-          )}
+          {state.title.hasErrors && <div className="alert alert-danger small liveValidateMessage">{state.title.message}</div>}
         </div>
 
         <div className="form-group">
@@ -172,18 +185,10 @@ function ViewSinglePost() {
             className="body-content tall-textarea form-control"
             type="text"
             value={state.body.value}
-            onChange={(event) =>
-              dispatch({ type: "bodyChange", value: event.target.value })
-            }
-            onBlur={(event) =>
-              dispatch({ type: "bodyRules", value: event.target.value })
-            }
+            onChange={(event) => dispatch({ type: "bodyChange", value: event.target.value })}
+            onBlur={(event) => dispatch({ type: "bodyRules", value: event.target.value })}
           />
-          {state.body.hasErrors && (
-            <div className="alert alert-danger small liveValidateMessage">
-              {state.body.message}
-            </div>
-          )}
+          {state.body.hasErrors && <div className="alert alert-danger small liveValidateMessage">{state.body.message}</div>}
         </div>
 
         <button className="btn btn-primary" disabled={state.isSaving}>

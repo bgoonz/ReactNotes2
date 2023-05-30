@@ -4,7 +4,7 @@ import Axios from "axios";
 import LoadingDotsIcon from "./LoadingDotsIcon";
 import ReactMarkdown from "react-markdown";
 import { useParams, Link } from "react-router-dom";
-
+import NotFound from "./NotFound";
 import { Tooltip } from "react-tooltip";
 function ViewSinglePost() {
   const { id } = useParams();
@@ -35,6 +35,9 @@ function ViewSinglePost() {
     const date = new Date(post.createdDate);
     return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
   }
+    
+    if ( !isLoading && !post ) return <NotFound />;
+    
   if (isLoading)
     return (
       <Page title="...">
