@@ -35,9 +35,9 @@ function ViewSinglePost() {
     const date = new Date(post.createdDate);
     return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
   }
-    
-    if ( !isLoading && !post ) return <NotFound />;
-    
+
+  if (!isLoading && !post) return <NotFound />;
+
   if (isLoading)
     return (
       <Page title="...">

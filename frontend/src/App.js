@@ -18,6 +18,7 @@ import Profile from "./components/Profile";
 import Terms from "./components/Terms";
 import ViewSinglePost from "./components/ViewSinglePost";
 import EditPost from "./components/EditPost";
+import NotFound from "./components/NotFound";
 Axios.defaults.baseURL = "http://localhost:8080";
 
 function Main() {
@@ -27,8 +28,8 @@ function Main() {
     user: {
       token: localStorage.getItem("complexappToken"),
       username: localStorage.getItem("complexappUsername"),
-      avatar: localStorage.getItem("complexappAvatar"),
-    },
+      avatar: localStorage.getItem("complexappAvatar")
+    }
   };
 
   function ourReducer(draft, action) {
@@ -60,12 +61,7 @@ function Main() {
       localStorage.removeItem("complexappUsername");
       localStorage.removeItem("complexappAvatar");
     }
-  }, [
-    state.loggedIn,
-    state.user.token,
-    state.user.username,
-    state.user.avatar,
-  ]);
+  }, [state.loggedIn, state.user.token, state.user.username, state.user.avatar]);
 
   return (
     <StateContext.Provider value={state}>
@@ -75,15 +71,13 @@ function Main() {
           <Header />
           <Routes>
             <Route path="/profile/:username/*" element={<Profile />} />
-            <Route
-              path="/"
-              element={state.loggedIn ? <Home /> : <HomeGuest />}
-            />
+            <Route path="/" element={state.loggedIn ? <Home /> : <HomeGuest />} />
             <Route path="/post/:id" element={<ViewSinglePost />} />
             <Route path="/post/:id/edit" element={<EditPost />} />
             <Route path="/create-post" element={<CreatePost />} />
             <Route path="/about-us" element={<About />} />
             <Route path="/terms" element={<Terms />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
           <Footer />
         </BrowserRouter>
