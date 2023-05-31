@@ -11,7 +11,7 @@ import DispatchContext from "../DispatchContext";
 import NotFound from "./NotFound";
 
 function EditPost() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const appState = React.useContext(StateContext);
   const appDispatch = React.useContext(DispatchContext);
   const originalState = {
@@ -98,10 +98,9 @@ function EditPost() {
             appDispatch({
               type: "flashMessage",
               value: "You do not have permission to edit that post.",
-            } );
+            });
             // redirect to homepage if user is not the author of the post
             navigate("/");
-              
           }
         } else {
           dispatch({ type: "notFound" });
