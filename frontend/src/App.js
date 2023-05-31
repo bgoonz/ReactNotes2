@@ -29,8 +29,9 @@ function Main() {
     user: {
       token: localStorage.getItem("complexappToken"),
       username: localStorage.getItem("complexappUsername"),
-      avatar: localStorage.getItem("complexappAvatar"),
+      avatar: localStorage.getItem("complexappAvatar")
     },
+    isSearchOpen: false
   };
 
   function ourReducer(draft, action) {
@@ -44,6 +45,12 @@ function Main() {
         break;
       case "flashMessage":
         draft.flashMessages.push(action.value);
+        break;
+      case "openSearch":
+        draft.isSearchOpen = true;
+        break;
+      case "closeSearch":
+        draft.isSearchOpen = false;
         break;
       default:
         break;
@@ -62,12 +69,7 @@ function Main() {
       localStorage.removeItem("complexappUsername");
       localStorage.removeItem("complexappAvatar");
     }
-  }, [
-    state.loggedIn,
-    state.user.token,
-    state.user.username,
-    state.user.avatar,
-  ]);
+  }, [state.loggedIn, state.user.token, state.user.username, state.user.avatar]);
 
   return (
     <StateContext.Provider value={state}>
@@ -77,10 +79,7 @@ function Main() {
           <Header />
           <Routes>
             <Route path="/profile/:username/*" element={<Profile />} />
-            <Route
-              path="/"
-              element={state.loggedIn ? <Home /> : <HomeGuest />}
-            />
+            <Route path="/" element={state.loggedIn ? <Home /> : <HomeGuest />} />
             <Route path="/post/:id" element={<ViewSinglePost />} />
             <Route path="/post/:id/edit" element={<EditPost />} />
             <Route path="/create-post" element={<CreatePost />} />
@@ -88,7 +87,7 @@ function Main() {
             <Route path="/terms" element={<Terms />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
-          <Search />
+          {state.isSearchOpen ? <Search /> : ""}
           <Footer />
         </BrowserRouter>
       </DispatchContext.Provider>

@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect } from "react";
+import React from "react";
 
 function Search() {
+
   return (
     <div className="search-overlay">
       <div className="search-overlay-top shadow-sm">
