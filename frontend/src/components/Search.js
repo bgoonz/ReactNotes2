@@ -1,9 +1,13 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
-
+import React, { useEffect, useContext } from "react";
+import DispatchContext from "./../DispatchContext";
 function Search() {
-
+    const appDispatch = useContext( DispatchContext );
+       function handleSearchClose(event) {
+         event.preventDefault();
+         appDispatch({ type: "closeSearch" });
+       }
   return (
     <div className="search-overlay">
       <div className="search-overlay-top shadow-sm">
@@ -19,7 +23,7 @@ function Search() {
             className="live-search-field"
             placeholder="What are you interested in?"
           />
-          <span className="close-live-search">
+          <span onClick={handleSearchClose} className="close-live-search">
             <i className="fas fa-times-circle"></i>
           </span>
         </div>

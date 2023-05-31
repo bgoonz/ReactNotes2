@@ -14,7 +14,8 @@ function HeaderLoggedIn(props) {
     function handleSearch( event ) {
         event.preventDefault()
         appDispatch({ type: "openSearch" })
-}
+    }
+ 
   return (
     <div className="flex-row my-3 my-md-0">
           <a onClick={ handleSearch}  href="#" className="text-white mr-2 header-search-icon">
