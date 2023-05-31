@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useContext } from "react";
 import { useImmer } from "use-immer";
 import DispatchContext from "./../DispatchContext";
+import Axios from "axios";
 function Search() {
   const appDispatch = useContext(DispatchContext);
   const [state, setState] = useImmer({
@@ -23,11 +25,19 @@ function Search() {
   });
   useEffect(() => {
     const delay = setTimeout(() => {
-      console.log(state.searchTerm);
-    }, 3000);
+        setState((draft) => {
+            draft.requestCount++;
+        });
+    }, 1000);
     return () => clearTimeout(delay);
   }, [state.searchTerm]);
 
+    useEffect( () => {
+        if(state.requestCount) {
+            //send axios request here
+        }
+    }, [state.requestCount]);
+    
   function searchKeyPressHandler(event) {
     //escape key has keycode 27
     if (event.keyCode === 27) {
