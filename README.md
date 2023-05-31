@@ -240,4 +240,4 @@ function searchKeyPressHandler(event) {
 }
 ```
 
-[useEffect](./notes/useEffect.md)
+[useEffect](./0-notes/useEffect.md)
