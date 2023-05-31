@@ -267,3 +267,36 @@ function searchKeyPressHandler(event) {
 - the in prop tells us whether or not the element should be visible
 - the classNames prop tells us what the class name should be for the element while it is visible
 - the unmountOnExit prop tells us that the element should be removed from the DOM once the animation is complete
+
+```css
+.search-overlay-enter {
+  opacity: 0;
+  transform: scale(1.3);
+}
+
+.search-overlay-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: 0.33s visibility ease-in-out, 0.33s opacity ease-in-out,
+    0.33s transform ease-in-out;
+}
+
+.search-overlay-exit {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.search-overlay-exit-active {
+  opacity: 0;
+  transform: scale(1.3);
+  transition: 0.33s visibility ease-in-out, 0.33s opacity ease-in-out,
+    0.33s transform ease-in-out;
+}
+```
+
+- the above css is for the search overlay animation
+- All we need to do is give the `<CSSTransition>` component a prop of `classNames="search-overlay"` and then create a css class called `.search-overlay-enter` and `.search-overlay-exit` and then add the animation properties to those classes.
+
+- React Transition Group will then apply those classes to the element while it is animating in and out of the DOM.
+
+---
