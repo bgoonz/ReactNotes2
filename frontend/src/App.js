@@ -19,6 +19,7 @@ import Terms from "./components/Terms";
 import ViewSinglePost from "./components/ViewSinglePost";
 import EditPost from "./components/EditPost";
 import NotFound from "./components/NotFound";
+import Search from "./components/Search";
 Axios.defaults.baseURL = "http://localhost:8080";
 
 function Main() {
@@ -87,6 +88,7 @@ function Main() {
             <Route path="/terms" element={<Terms />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <Search />
           <Footer />
         </BrowserRouter>
       </DispatchContext.Provider>
