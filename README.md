@@ -218,3 +218,26 @@ const [state, dispatch] = useImmerReducer(ourReducer, initialState);
 `<img className="avatar-tiny" src={ post.author.avatar } /> <strong>{ post.title }</strong>{ " " }`
 
 the `{ " " }` is to add a whitespace space which react removes by default.
+
+---
+
+### Search Overlay
+
+- Once we open the search overlay we want to listen for the escape key to close it. Listening for a keypress is considered a side effect so that is a perfect use case for useEffect
+
+```js
+useEffect(() => {
+  document.addEventListener("keyup", searchKeyPressHandler);
+  // if the user closes the search overlay we don't want to keep listening... so we need a cleanup function
+  return () => document.removeEventListener("keyup", searchKeyPressHandler);
+}, []);
+
+function searchKeyPressHandler(event) {
+  //escape key has keycode 27
+  if (event.keyCode === 27) {
+    appDispatch({ type: "closeSearch" });
+  }
+}
+```
+
+[useEffect](./notes/useEffect.md)

@@ -8,6 +8,19 @@ function Search() {
     event.preventDefault();
     appDispatch({ type: "closeSearch" });
   }
+
+  useEffect(() => {
+    document.addEventListener("keyup", searchKeyPressHandler);
+    // if the user closes the search overlay we don't want to keep listening... so we need a cleanup function
+    return () => document.removeEventListener("keyup", searchKeyPressHandler);
+  });
+
+  function searchKeyPressHandler(event) {
+    //escape key has keycode 27
+    if (event.keyCode === 27) {
+      appDispatch({ type: "closeSearch" });
+    }
+  }
   return (
     <div className="search-overlay">
       <div className="search-overlay-top shadow-sm">
