@@ -3,11 +3,11 @@
 import React, { useEffect, useContext } from "react";
 import DispatchContext from "./../DispatchContext";
 function Search() {
-    const appDispatch = useContext( DispatchContext );
-       function handleSearchClose(event) {
-         event.preventDefault();
-         appDispatch({ type: "closeSearch" });
-       }
+  const appDispatch = useContext(DispatchContext);
+  function handleSearchClose(event) {
+    event.preventDefault();
+    appDispatch({ type: "closeSearch" });
+  }
   return (
     <div className="search-overlay">
       <div className="search-overlay-top shadow-sm">
