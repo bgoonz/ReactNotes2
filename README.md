@@ -241,3 +241,29 @@ function searchKeyPressHandler(event) {
 ```
 
 [useEffect Dependency Notes](./0-notes/useEffect.md)
+
+---
+
+### React Transition Group
+
+[React Transition Group](https://reactcommunity.org/react-transition-group/)
+
+- React Transition Group is a library that allows us to animate elements in and out of the DOM. It is a very popular library and is used by many other libraries and frameworks.
+
+> usage:
+
+```js
+<CSSTransition
+  timeout={330}
+  in={state.isSearchOpen}
+  classNames="search-overlay"
+  unmountOnExit
+>
+  <Search />
+</CSSTransition>
+```
+
+- above the timeout prop tells us how long the animation should take in milliseconds
+- the in prop tells us whether or not the element should be visible
+- the classNames prop tells us what the class name should be for the element while it is visible
+- the unmountOnExit prop tells us that the element should be removed from the DOM once the animation is complete

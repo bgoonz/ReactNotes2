@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useImmerReducer } from "use-immer";
 import DispatchContext from "./DispatchContext";
 import StateContext from "./StateContext";
+import { CSSTransition } from "react-transition-group";
 
 // My components
 import "./App.css";
@@ -95,7 +96,14 @@ function Main() {
             <Route path="/terms" element={<Terms />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
-          {state.isSearchOpen ? <Search /> : ""}
+          <CSSTransition
+            timeout={330}
+            in={state.isSearchOpen}
+            classNames="search-overlay"
+            unmountOnExit
+          >
+            <Search />
+          </CSSTransition>
           <Footer />
         </BrowserRouter>
       </DispatchContext.Provider>
