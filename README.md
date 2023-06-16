@@ -300,3 +300,22 @@ function searchKeyPressHandler(event) {
 - React Transition Group will then apply those classes to the element while it is animating in and out of the DOM.
 
 ---
+
+#### Using useImmer instead of useState:
+
+```js
+
+  const [state, setState] = useImmer({
+    searchTerm: "",
+    results: [],
+    show: "neither",
+    requestCount: 0
+  });
+
+  //...
+    function handleInput(event) {
+    const value = event.target.value;
+    setState((draft) => {
+      draft.searchTerm = value;
+    });
+```
