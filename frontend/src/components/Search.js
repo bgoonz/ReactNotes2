@@ -6,6 +6,7 @@ import React, { useEffect, useContext } from "react";
 import { useImmer } from "use-immer";
 import DispatchContext from "./../DispatchContext";
 import Axios from "axios";
+import { Link } from "react-router-dom";
 
 function Search() {
   const appDispatch = useContext(DispatchContext);
@@ -16,7 +17,7 @@ function Search() {
     requestCount: 0
   });
   function handleSearchClose(event) {
-    event.preventDefault();
+    // event.preventDefault();
     appDispatch({ type: "closeSearch" });
   }
 
@@ -103,12 +104,12 @@ function Search() {
                 const date = new Date(post.createdDate);
                 const formattedDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
                 return (
-                  <a href={`/post/${post._id}`} className="list-group-item list-group-item-action" key={post._id}>
+                  <Link onClick={handleSearchClose} key={post._id} to={`/post/${post._id}`} className="list-group-item list-group-item-action">
                     <img className="avatar-tiny" src={post.author.avatar} /> <strong>{post.title}</strong>{" "}
                     <span className="text-muted small">
-                      {!post.isVisitorOwner && `by ${post.author.username}`} on {formattedDate}{" "}
+                      by {post.author.username} on {formattedDate}{" "}
                     </span>
-                  </a>
+                  </Link>
                 );
               })}
             </div>
