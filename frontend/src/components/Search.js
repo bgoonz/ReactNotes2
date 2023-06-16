@@ -37,7 +37,22 @@ function Search() {
 
   useEffect(() => {
     if (state.requestCount) {
-      //send axios request here
+        const ourRequest = Axios.CancelToken.source();
+        async function fetchResults() { 
+            try {
+                const response = await Axios.post( '/search', { searchTerm: state.searchTerm }, { cancelToken: ourRequest.token } );
+                console.log(response.data)
+                setState( ( draft ) => {
+                    draft.results = response.data;
+                    draft.show = "results";
+                } );
+                
+            } catch ( error ) {
+                console.log(error)
+            }
+        }
+        fetchResults();
+        return () => ourRequest.cancel();
     }
   }, [state.requestCount]);
 
