@@ -6,7 +6,6 @@ import Page from "./Page";
 import ProfilePosts from "./ProfilePosts";
 import StateContext from "../StateContext";
 import { useImmer } from "use-immer";
-
 function Profile() {
   const { username } = useParams();
   const appState = useContext(StateContext);
@@ -54,7 +53,6 @@ function Profile() {
       setState((draft) => {
         draft.followActionLoading = true;
       });
-
       const ourRequest = Axios.CancelToken.source();
       async function fetchData() {
         try {
@@ -83,11 +81,48 @@ function Profile() {
     } else {
     }
   }, [state.startFollowingRequestCount]);
-
+  // unfollow user useEffect
+  useEffect(() => {
+    if (state.stopFollowingRequestCount) {
+      setState((draft) => {
+        draft.followActionLoading = true;
+      });
+      const ourRequest = Axios.CancelToken.source();
+      async function fetchData() {
+        try {
+          const response = await Axios.post(
+            `/removeFollow/${state.profileData.profileUsername}`,
+            { token: appState.user.token },
+            { cancelToken: ourRequest.token }
+          );
+          // console.log(response.data);
+          setState((draft) => {
+            draft.profileData.isFollowing = false;
+            draft.profileData.counts.followerCount--;
+            draft.followActionLoading = false;
+          });
+        } catch (e) {
+          console.log("There was a problem.");
+        }
+      }
+      fetchData();
+      return () => {
+        // cleanup
+        ourRequest.cancel();
+      };
+    } else {
+    }
+  }, [state.stopFollowingRequestCount]);
   // start following function
   function startFollowing() {
     setState((draft) => {
       draft.startFollowingRequestCount++;
+    });
+  }
+  // stop following function
+  function stopFollowing() {
+    setState((draft) => {
+      draft.stopFollowingRequestCount++;
     });
   }
   //--------------------JSX--------------------
@@ -112,8 +147,19 @@ function Profile() {
               Follow <i className="fas fa-user-plus"></i>
             </button>
           )}
+        {appState.loggedIn &&
+          state.profileData.isFollowing &&
+          appState.user.username !== state.profileData.profileUsername &&
+          state.profileData.profileUsername !== "..." && (
+            <button
+              onClick={stopFollowing}
+              disabled={state.followActionLoading}
+              className="btn btn-danger btn-sm ml-2"
+            >
+              Unfollow <i className="fas fa-user-times"></i>
+            </button>
+          )}
       </h2>
-
       <div className="profile-nav nav nav-tabs pt-2 mb-4">
         <a href="#" className="active nav-item nav-link">
           Posts: {state.profileData.counts.postCount}
@@ -129,5 +175,4 @@ function Profile() {
     </Page>
   );
 }
-
 export default Profile;
