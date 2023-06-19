@@ -10,6 +10,7 @@ import { useImmer } from "use-immer";
 function Profile() {
   const { username } = useParams();
   const appState = useContext(StateContext);
+  // profile initial state
   const [state, setState] = useImmer({
     followActionLoading: false,
     startFollowingRequestCount: 0,
@@ -21,7 +22,7 @@ function Profile() {
       counts: { postCount: "", followerCount: "", followingCount: "" },
     },
   });
-
+  // profile useEffect
   useEffect(() => {
     const ourRequest = Axios.CancelToken.source();
     async function fetchData() {
@@ -38,7 +39,7 @@ function Profile() {
           draft.profileData = response.data;
         });
       } catch (e) {
-        console.log("There was a problem.");
+        console.log("There was a problem.", e);
       }
     }
     fetchData();
@@ -47,7 +48,49 @@ function Profile() {
       ourRequest.cancel();
     };
   }, [username, appState.user.token]);
+  // follow user useEffect
+  useEffect(() => {
+    if (state.startFollowingRequestCount) {
+      setState((draft) => {
+        draft.followActionLoading = true;
+      });
 
+      const ourRequest = Axios.CancelToken.source();
+      async function fetchData() {
+        try {
+          const response = await Axios.post(
+            `/addFollow/${state.profileData.profileUsername}`,
+            {
+              token: appState.user.token,
+            },
+            { cancelToken: ourRequest.token }
+          );
+          // console.log(response.data);
+          setState((draft) => {
+            draft.profileData.isFollowing = true;
+            draft.profileData.counts.followerCount++;
+            draft.followActionLoading = false;
+          });
+        } catch (e) {
+          console.log("There was a problem.");
+        }
+      }
+      fetchData();
+      return () => {
+        // cleanup
+        ourRequest.cancel();
+      };
+    } else {
+    }
+  }, [state.startFollowingRequestCount]);
+
+  // start following function
+  function startFollowing() {
+    setState((draft) => {
+      draft.startFollowingRequestCount++;
+    });
+  }
+  //--------------------JSX--------------------
   return (
     <Page title="Profile Screen">
       <h2>
@@ -61,7 +104,11 @@ function Profile() {
           !state.profileData.isFollowing &&
           appState.user.username !== state.profileData.profileUsername &&
           state.profileData.profileUsername !== "..." && (
-            <button className="btn btn-primary btn-sm ml-2">
+            <button
+              onClick={startFollowing}
+              disabled={state.followActionLoading}
+              className="btn btn-primary btn-sm ml-2"
+            >
               Follow <i className="fas fa-user-plus"></i>
             </button>
           )}

@@ -323,7 +323,6 @@ function searchKeyPressHandler(event) {
 **Logic for showing the follow button**
 
 ```js
-
 {
   appState.loggedIn &&
     !state.profileData.isFollowing &&
