@@ -4,8 +4,8 @@ import StateContext from "../StateContext";
 import useProfile from "../hooks/useProfile";
 import Page from "./Page";
 import ProfilePosts from "./ProfilePosts";
-import ProfileFollowers from "./ProfileFollowers";
-import ProfileFollowing from "./ProfileFollowing";
+import ProfileConnections from "./ProfileConnections";
+
 function Profile() {
   const { state, startFollowing, stopFollowing } = useProfile();
   const appState = useContext(StateContext);
@@ -58,8 +58,14 @@ function Profile() {
       </div>
       <Routes>
         <Route path="/" element={<ProfilePosts />} />
-        <Route path="/followers" element={<ProfileFollowers />} />
-        <Route path="/following" element={<ProfileFollowing />} />
+        <Route
+          path="/followers"
+          element={<ProfileConnections type="followers" />}
+        />
+        <Route
+          path="/following"
+          element={<ProfileConnections type="following" />}
+        />
       </Routes>
     </Page>
   );

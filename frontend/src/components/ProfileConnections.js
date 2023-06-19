@@ -1,52 +1,54 @@
 import React, { useEffect, useState } from "react";
-
 import Axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import LoadingDotsIcon from "./LoadingDotsIcon";
 
-function ProfileFollowers() {
+function ProfileConnections({ type }) {
   const { username } = useParams();
 
   const [isLoading, setIsLoading] = useState(true);
-  const [posts, setPosts] = useState([]);
+  const [connections, setConnections] = useState([]);
+
   useEffect(() => {
     const ourRequest = Axios.CancelToken.source();
-    async function fetchPosts() {
+
+    async function fetchConnections() {
       try {
-        const response = await Axios.get(`/profile/${username}/followers`, {
+        const response = await Axios.get(`/profile/${username}/${type}`, {
           cancelToken: ourRequest.token,
         });
 
-        setPosts(response.data);
+        setConnections(response.data);
         setIsLoading(false);
       } catch (error) {
         console.log("There was a problem.", error);
       }
     }
-    fetchPosts();
+
+    fetchConnections();
+
     return () => {
-      // cleanup
+      // Cleanup
       ourRequest.cancel();
     };
-  }, [username]);
+  }, [username, type]);
+
   if (isLoading) return <LoadingDotsIcon />;
 
   return (
     <div className="list-group">
-      {posts.map((follower, index) => {
-        return (
-          <Link
-            to={`/profile/${follower.username}`}
-            key={index}
-            className="list-group-item list-group-item-action"
-          >
-            <img className="avatar-tiny" src={follower.avitar} alt="" />{" "}
-            {follower.username}
-          </Link>
-        );
-      })}
+      {connections.map((connection, index) => (
+        <Link
+          to={`/profile/${connection.username}`}
+          key={index}
+          className="list-group-item list-group-item-action"
+        >
+          <img className="avatar-tiny" src={connection.avatar} alt="" />
+          {connection.username}
+        </Link>
+      ))}
     </div>
   );
 }
 
-export default ProfileFollowers;
+export default ProfileConnections;
