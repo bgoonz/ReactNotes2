@@ -1,8 +1,7 @@
-import React, { useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 import { useImmer } from "use-immer";
 import DispatchContext from "./../DispatchContext";
 import Axios from "axios";
-import { Link } from "react-router-dom";
 
 function useSearch() {
   const appDispatch = useContext(DispatchContext);

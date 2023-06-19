@@ -1,8 +1,11 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
+import { NavLink, Route, Routes } from "react-router-dom";
+import StateContext from "../StateContext";
+import useProfile from "../hooks/useProfile";
 import Page from "./Page";
 import ProfilePosts from "./ProfilePosts";
-import useProfile from "../hooks/useProfile";
-import StateContext from "../StateContext";
+import ProfileFollowers from "./ProfileFollowers";
+import ProfileFollowing from "./ProfileFollowing";
 function Profile() {
   const { state, startFollowing, stopFollowing } = useProfile();
   const appState = useContext(StateContext);
@@ -43,17 +46,21 @@ function Profile() {
           )}
       </h2>
       <div className="profile-nav nav nav-tabs pt-2 mb-4">
-        <a href="#" className="active nav-item nav-link">
+        <NavLink end to="" className=" nav-item nav-link">
           Posts: {state.profileData.counts.postCount}
-        </a>
-        <a href="#" className="nav-item nav-link">
+        </NavLink>
+        <NavLink to="followers" className="nav-item nav-link">
           Followers: {state.profileData.counts.followerCount}
-        </a>
-        <a href="#" className="nav-item nav-link">
+        </NavLink>
+        <NavLink to="following" className="nav-item nav-link">
           Following: {state.profileData.counts.followingCount}
-        </a>
+        </NavLink>
       </div>
-      <ProfilePosts />
+      <Routes>
+        <Route path="/" element={<ProfilePosts />} />
+        <Route path="/followers" element={<ProfileFollowers />} />
+        <Route path="/following" element={<ProfileFollowing />} />
+      </Routes>
     </Page>
   );
 }

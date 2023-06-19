@@ -334,3 +334,19 @@ function searchKeyPressHandler(event) {
     );
 }
 ```
+
+**Using React-Router-Dom NavLink**
+
+```js
+       <NavLink end to="" className=" nav-item nav-link">
+          Posts: {state.profileData.counts.postCount}
+        </NavLink>
+        <NavLink to="followers" className="nav-item nav-link">
+          Followers: {state.profileData.counts.followerCount}
+        </NavLink>
+        <NavLink to="following" className="nav-item nav-link">
+          Following: {state.profileData.counts.followingCount}
+        </NavLink>
+```
+
+- the end prop on the first NavLink tells react router that this is the exact path that should be matched. So if the url is `/profile` then this NavLink will be active but if the url is `/profile/followers` then this NavLink will not be active.
