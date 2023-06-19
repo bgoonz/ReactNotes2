@@ -14,7 +14,6 @@ function Profile() {
     followActionLoading: false,
     startFollowingRequestCount: 0,
     stopFollowingRequestCount: 0,
-
     profileData: {
       profileUsername: "...",
       profileAvatar: "https://gravatar.com/avatar/placeholder?s=128",
@@ -22,6 +21,7 @@ function Profile() {
       counts: { postCount: "", followerCount: "", followingCount: "" },
     },
   });
+
   useEffect(() => {
     const ourRequest = Axios.CancelToken.source();
     async function fetchData() {
@@ -33,7 +33,7 @@ function Profile() {
           },
           { cancelToken: ourRequest.token }
         );
-        console.log(response.data);
+        // console.log(response.data);
         setState((draft) => {
           draft.profileData = response.data;
         });
@@ -47,6 +47,7 @@ function Profile() {
       ourRequest.cancel();
     };
   }, [username, appState.user.token]);
+
   return (
     <Page title="Profile Screen">
       <h2>
@@ -56,9 +57,14 @@ function Profile() {
           alt=""
         />{" "}
         {state.profileData.profileUsername}
-        <button className="btn btn-primary btn-sm ml-2">
-          Follow <i className="fas fa-user-plus"></i>
-        </button>
+        {appState.loggedIn &&
+          !state.profileData.isFollowing &&
+          appState.user.username !== state.profileData.profileUsername &&
+          state.profileData.profileUsername !== "..." && (
+            <button className="btn btn-primary btn-sm ml-2">
+              Follow <i className="fas fa-user-plus"></i>
+            </button>
+          )}
       </h2>
 
       <div className="profile-nav nav nav-tabs pt-2 mb-4">

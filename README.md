@@ -319,3 +319,19 @@ function searchKeyPressHandler(event) {
       draft.searchTerm = value;
     });
 ```
+
+**Logic for showing the follow button**
+
+```js
+
+{
+  appState.loggedIn &&
+    !state.profileData.isFollowing &&
+    appState.user.username !== state.profileData.profileUsername &&
+    state.profileData.profileUsername !== "..." && (
+      <button className="btn btn-primary btn-sm ml-2">
+        Follow <i className="fas fa-user-plus"></i>
+      </button>
+    );
+}
+```
