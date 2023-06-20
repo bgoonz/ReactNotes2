@@ -103,7 +103,7 @@ function Main() {
             <Route path="/create-post" element={<CreatePost />} />
             <Route path="/about-us" element={<About />} />
             <Route path="/terms" element={<Terms />} />
-            <Route path="/chat" element={<Chat />} />
+
             <Route path="*" element={<NotFound />} />
           </Routes>
           <CSSTransition
@@ -114,6 +114,7 @@ function Main() {
           >
             <Search />
           </CSSTransition>
+          <Chat />
           <Footer />
         </BrowserRouter>
       </DispatchContext.Provider>
