@@ -354,9 +354,22 @@ function searchKeyPressHandler(event) {
 **How to focus the input field whenever the chat box is opened**
 
 ```js
+const chatField = useRef(null);
 useEffect(() => {
   if (appState.isChatOpen) {
-    document.getElementById("chatField").focus();
+    chatField.current.focus();
   }
 }, [appState.isChatOpen]);
+//.....
+
+<form id="chatForm" className="chat-form border-top">
+  <input
+    ref={chatField}
+    type="text"
+    className="chat-field"
+    id="chatField"
+    placeholder="Type a message…"
+    autoComplete="off"
+  />
+</form>;
 ```

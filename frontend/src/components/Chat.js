@@ -1,13 +1,13 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import StateContext from "./../StateContext";
 import DispatchContext from "./../DispatchContext";
 const Chat = () => {
   const appState = useContext(StateContext);
   const appDispatch = useContext(DispatchContext);
-
+  const chatField = useRef(null);
   useEffect(() => {
     if (appState.isChatOpen) {
-      document.getElementById("chatField").focus();
+      chatField.current.focus();
     }
   }, [appState.isChatOpen]);
   return (
@@ -60,6 +60,7 @@ const Chat = () => {
       </div>
       <form id="chatForm" className="chat-form border-top">
         <input
+          ref={chatField}
           type="text"
           className="chat-field"
           id="chatField"
