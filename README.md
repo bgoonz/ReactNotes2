@@ -350,3 +350,13 @@ function searchKeyPressHandler(event) {
 ```
 
 - the end prop on the first NavLink tells react router that this is the exact path that should be matched. So if the url is `/profile` then this NavLink will be active but if the url is `/profile/followers` then this NavLink will not be active.
+
+**How to focus the input field whenever the chat box is opened**
+
+```js
+useEffect(() => {
+  if (appState.isChatOpen) {
+    document.getElementById("chatField").focus();
+  }
+}, [appState.isChatOpen]);
+```

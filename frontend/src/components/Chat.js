@@ -1,7 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import StateContext from "./../StateContext";
+import DispatchContext from "./../DispatchContext";
 const Chat = () => {
   const appState = useContext(StateContext);
+  const appDispatch = useContext(DispatchContext);
+
+  useEffect(() => {
+    if (appState.isChatOpen) {
+      document.getElementById("chatField").focus();
+    }
+  }, [appState.isChatOpen]);
   return (
     <div
       id="chat-wrapper"
@@ -11,7 +19,12 @@ const Chat = () => {
     >
       <div className="chat-title-bar bg-primary">
         Chat
-        <span className="chat-title-bar-close">
+        <span
+          onClick={() => {
+            appDispatch({ type: "closeChat" });
+          }}
+          className="chat-title-bar-close"
+        >
           <i className="fas fa-times-circle"></i>
         </span>
       </div>
@@ -22,6 +35,7 @@ const Chat = () => {
           </div>
           <img
             className="chat-avatar avatar-tiny"
+            alt="chat avatar"
             src="https://gravatar.com/avatar/b9408a09298632b5151200f3449434ef?s=128"
           />
         </div>
@@ -29,6 +43,7 @@ const Chat = () => {
         <div className="chat-other">
           <a href="#">
             <img
+              alt="chat avatar"
               className="avatar-tiny"
               src="https://gravatar.com/avatar/b9216295c1e3931655bae6574ac0e4c2?s=128"
             />
